@@ -23,7 +23,7 @@ export function CardHeader({ children }: CardHeaderProps) {
   const styles = createStyles(colors);
   return (
     <View style={styles.headerContainer}>
-      <ThemedText variant="headline">{children}</ThemedText>
+      <ThemedText variant="headline2">{children}</ThemedText>
     </View>
   );
 }

@@ -1,10 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { FlatList, StyleSheet, View, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import ThemedText from './ThemedText';
 import { UserType } from '@/type/UserType';
