@@ -15,6 +15,13 @@ const getVariantStyle = (colors: typeof Colors.light) => ({
     fontFamily: 'HossRound',
     color: colors.greyLight,
   },
+  title: {
+    fontSize: 34,
+    lineHeight: 36,
+    marginBottom: 10,
+    fontFamily: 'HossRoundBlack',
+    color: colors.primary,
+  },
   headline: {
     fontSize: 24,
     lineHeight: 28,
