@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import ThemedText from '@/components/ThemedText';
 import ThemedButton from '@/components/ThemedButton';
@@ -5,8 +6,17 @@ import useThemeColors from '@/hooks/useThemeColors';
 import useThemeShadows from '@/hooks/useThemeShadows';
 import { PartyType } from '@/type/PartyType';
 import Logo from '@/components/Logo';
+import { useFetchQuery } from '@/hooks/useFetchQuery';
 
 export default function Home() {
+  const [user, setUser] = useState<any>(null);
+
+  const { data } = useFetchQuery('/pokemon/ditto');
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const partyList: PartyType[] = Array.from({ length: 24 }, (_, k) => ({
     id: k + 1,
     name: `Party de John${k}`,
