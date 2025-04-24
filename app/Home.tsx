@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
 import ThemedText from '@/components/ThemedText';
 import ThemedButton from '@/components/ThemedButton';
 import useThemeColors from '@/hooks/useThemeColors';
@@ -7,15 +7,13 @@ import useThemeShadows from '@/hooks/useThemeShadows';
 import { PartyType } from '@/type/PartyType';
 import Logo from '@/components/Logo';
 import { useFetchQuery } from '@/hooks/useFetchQuery';
+import { useAuth } from '@/context/AuthContext';
+import { useLogout } from '@/hooks/useAuth';
+import { router } from 'expo-router';
 
 export default function Home() {
-  const [user, setUser] = useState<any>(null);
-
-  const { data } = useFetchQuery('/pokemon/ditto');
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { user } = useAuth();
+  const logout = useLogout();
 
   const partyList: PartyType[] = Array.from({ length: 24 }, (_, k) => ({
     id: k + 1,
@@ -44,7 +42,17 @@ export default function Home() {
     )
     .sort((a, b) => b.date.getTime() - a.date.getTime());
 
+  const handleLogout = async () => {
+    try {
+      await logout.mutateAsync();
+      router.replace('/auth/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   const flatData = [
+    { type: 'user' },
     { type: 'header', title: 'Soirées à venir' },
     ...upcomingParties.map((item) => ({ type: 'party', ...item })),
     { type: 'header', title: 'Soirées passées' },
@@ -53,6 +61,22 @@ export default function Home() {
   ];
 
   const renderItem = ({ item }: { item: any }) => {
+    if (item.type === 'user') {
+      return (
+        <View style={styles.userCard}>
+          <View>
+            <ThemedText variant="headline2">
+              Bonjour {user?.firstname}
+            </ThemedText>
+            <ThemedText variant="sub">{user?.phoneNumber}</ThemedText>
+          </View>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <ThemedText color="secondary">Déconnexion</ThemedText>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     if (item.type === 'header') {
       return <ThemedText variant="headline">{item.title}</ThemedText>;
     }
@@ -115,6 +139,19 @@ const createStyles = (colors: any, shadows: any) =>
   StyleSheet.create({
     listContent: {
       paddingVertical: 25,
+    },
+    userCard: {
+      ...shadows.dp30,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+      backgroundColor: colors.white,
+      padding: 15,
+      borderRadius: 10,
+    },
+    logoutButton: {
+      padding: 10,
     },
     partyItem: {
       ...shadows.dp30,
