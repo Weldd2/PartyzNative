@@ -1,55 +1,29 @@
-import useThemeColors from '@/hooks/useThemeColors';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { Slot, Stack, useRouter, useSegments } from 'expo-router';
-import { StatusBar } from 'react-native';
-import { queryClient } from '@/hooks/queryClient';
-import { AuthProvider, useAuth } from '@/context/AuthContext';
-import { useEffect } from 'react';
+import Home from '@/app/Home';
+import Parties from '@/app/Parties';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFonts } from 'expo-font';
+import * as React from 'react';
 
-// Auth protection component
-function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
-
-  useEffect(() => {
-    const inAuthGroup = segments[0] === 'auth';
-
-    if (!isLoading) {
-      // If not authenticated and not in auth group, redirect to login
-      if (!isAuthenticated && !inAuthGroup) {
-        router.replace('/auth/login');
-      }
-
-      // If authenticated and in auth group, redirect to home
-      if (isAuthenticated && inAuthGroup) {
-        router.replace('/');
-      }
-    }
-  }, [isAuthenticated, segments, isLoading]);
-
-  // While loading auth state, show nothing
-  if (isLoading) return null;
-
-  return <>{children}</>;
-}
-
-// Define layout for auth group (login, verify, register)
-export function AuthLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
-}
+const Stack = createNativeStackNavigator();
 
 export default function RootLayout() {
-  const Colors = useThemeColors();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <StatusBar backgroundColor={Colors.greyWhite} />
-        <AuthGuard>
-          <Slot />
-        </AuthGuard>
-      </AuthProvider>
-    </QueryClientProvider>
-  );
+	const [loaded] = useFonts({
+		HossRound: require('../assets/fonts/Hoss Round-Medium.otf'),
+		HossRoundBlack: require('../assets/fonts/Hoss Round-Black.otf'),
+	});
+	if (!loaded) return null;
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+				name="Home"
+				component={Home}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Parties"
+				component={Parties}
+				options={{ headerShown: false }}
+			/>
+		</Stack.Navigator>
+	);
 }

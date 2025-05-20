@@ -1,178 +1,52 @@
-import { useEffect, useState } from 'react';
-import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
-import ThemedText from '@/components/ThemedText';
-import ThemedButton from '@/components/ThemedButton';
-import useThemeColors from '@/hooks/useThemeColors';
-import useThemeShadows from '@/hooks/useThemeShadows';
-import { PartyType } from '@/type/PartyType';
+import DanseurSvg from '@/assets/images/danseur.svg';
 import Logo from '@/components/Logo';
-import { useFetchQuery } from '@/hooks/useFetchQuery';
-import { useAuth } from '@/context/AuthContext';
-import { useLogout } from '@/hooks/useAuth';
-import { router } from 'expo-router';
+import ThemedButton from '@/components/ThemedButton';
+import ThemedText from '@/components/ThemedText';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
+
+const style = StyleSheet.create({
+	homeContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		flex: 1,
+		paddingHorizontal: 15,
+		gap: 40,
+	},
+	logoContainer: {
+		alignSelf: 'stretch',
+		alignItems: 'center',
+	},
+	btnContainer: {
+		alignSelf: 'stretch',
+	},
+	danseur: {},
+});
 
 export default function Home() {
-  const { user } = useAuth();
-  const logout = useLogout();
+	const navigation = useNavigation();
 
-  const partyList: PartyType[] = Array.from({ length: 24 }, (_, k) => ({
-    id: k + 1,
-    name: `Party de John${k}`,
-    date: new Date(`2025-0${(k % 7) + 1}-19T11:04:39+00:00`),
-    unread: (k % 3) + 3,
-  }));
-
-  const colors = useThemeColors();
-  const shadows = useThemeShadows();
-  const styles = createStyles(colors, shadows);
-
-  const now = new Date();
-  const oneMonthAgo = new Date(now);
-  oneMonthAgo.setMonth(now.getMonth() - 1);
-
-  const upcomingParties = partyList
-    .filter((item) => item.date.getTime() >= now.getTime())
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
-
-  const pastParties = partyList
-    .filter(
-      (item) =>
-        item.date.getTime() < now.getTime() &&
-        item.date.getTime() >= oneMonthAgo.getTime()
-    )
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
-
-  const handleLogout = async () => {
-    try {
-      await logout.mutateAsync();
-      router.replace('/auth/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-
-  const flatData = [
-    { type: 'user' },
-    { type: 'header', title: 'Soirées à venir' },
-    ...upcomingParties.map((item) => ({ type: 'party', ...item })),
-    { type: 'header', title: 'Soirées passées' },
-    ...pastParties.map((item) => ({ type: 'party', ...item })),
-    { type: 'footer' },
-  ];
-
-  const renderItem = ({ item }: { item: any }) => {
-    if (item.type === 'user') {
-      return (
-        <View style={styles.userCard}>
-          <View>
-            <ThemedText variant="headline2">
-              Bonjour {user?.firstname}
-            </ThemedText>
-            <ThemedText variant="sub">{user?.phoneNumber}</ThemedText>
-          </View>
-          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <ThemedText color="secondary">Déconnexion</ThemedText>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-
-    if (item.type === 'header') {
-      return <ThemedText variant="headline">{item.title}</ThemedText>;
-    }
-    if (item.type === 'footer') {
-      return <ThemedButton text="Voir toutes les soirées passées" />;
-    }
-    const isPast = item.date.getTime() < now.getTime();
-    const daysDiff = Math.abs(
-      Math.ceil((item.date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    );
-    let badgeText = '';
-    let emoji = '';
-
-    if (isPast) {
-      badgeText = `il y a ${daysDiff} jours`;
-      if (daysDiff <= 1) emoji = '💥';
-      else if (daysDiff <= 7) emoji = '😎';
-      else emoji = '';
-    } else {
-      badgeText = `J-${daysDiff}`;
-      if (daysDiff <= 1) emoji = '🔥';
-      else if (daysDiff <= 7) emoji = '🎉';
-      else if (daysDiff <= 31) emoji = '⏰';
-      else emoji = '🤞';
-    }
-
-    return (
-      <View style={styles.partyItem}>
-        <View>
-          <ThemedText>{item.name}</ThemedText>
-          <ThemedText variant="sub">
-            {item.date.toLocaleDateString()}
-          </ThemedText>
-        </View>
-        <View style={styles.partyItemRight}>
-          <ThemedText variant="body3">
-            {badgeText} {emoji}
-          </ThemedText>
-          <View style={styles.unreadBadge}>
-            <ThemedText>{item.unread}</ThemedText>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  return (
-    <FlatList
-      data={flatData}
-      renderItem={renderItem}
-      keyExtractor={(_, idx) => idx.toString()}
-      contentContainerStyle={styles.listContent}
-      showsVerticalScrollIndicator={false}
-      ListHeaderComponent={<Logo />}
-    />
-  );
+	return (
+		<>
+			<View style={style.homeContainer}>
+				<View style={style.logoContainer}>
+					<Logo variant="big" />
+					<ThemedText>
+						Facilite l&apos;organisation de vos soirées
+					</ThemedText>
+				</View>
+				<View style={style.btnContainer}>
+					<ThemedButton
+						variant="secondary"
+						text="J'ai déjà un compte"
+					/>
+					<ThemedButton
+						onPress={() => navigation.navigate('Parties')}
+						text="S'inscrire"
+					/>
+				</View>
+				<DanseurSvg style={style.danseur} />
+			</View>
+		</>
+	);
 }
-
-const createStyles = (colors: any, shadows: any) =>
-  StyleSheet.create({
-    listContent: {
-      paddingVertical: 25,
-    },
-    userCard: {
-      ...shadows.dp30,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 20,
-      backgroundColor: colors.white,
-      padding: 15,
-      borderRadius: 10,
-    },
-    logoutButton: {
-      padding: 10,
-    },
-    partyItem: {
-      ...shadows.dp30,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      borderRadius: 10,
-      backgroundColor: colors.white,
-      height: 62,
-      marginBottom: 10,
-      paddingHorizontal: 10,
-    },
-    partyItemRight: {
-      alignItems: 'flex-end',
-    },
-    unreadBadge: {
-      width: 20,
-      height: 20,
-      backgroundColor: colors.secondary,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 100,
-    },
-  });
