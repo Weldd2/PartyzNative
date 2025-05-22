@@ -1,29 +1,23 @@
 import { PartyType } from '@/types/PartyType';
-import { useQuery } from '@tanstack/react-query';
+import { useApi } from './useApi';
 
-// const API_URL = 'https://api.preprod.partyz.app';
-const API_URL = 'https://192.168.1.83';
+interface ApiPartyType {
+  id: number;
+  name: string;
+  date: string;
+  unread: number;
+}
 
 export function useParties() {
-	return useQuery<PartyType[]>({
-		queryKey: ['parties'],
-		queryFn: async () => {
-			const response = await fetch(`${API_URL}/parties`, {
-				credentials: 'include',
-			});
+  const [rawParties, isLoading, error] = useApi<ApiPartyType[]>('/parties');
 
-			if (!response.ok) {
-				throw new Error('Failed to fetch parties');
-			}
+  // Transform the data to match PartyType
+  const parties: PartyType[] = rawParties 
+    ? rawParties.map(party => ({
+        ...party,
+        date: new Date(party.date) // Convert string to Date object
+      })) 
+    : [];
 
-			const data = await response.json();
-
-			return data.map((party: any) => ({
-				id: party.id,
-				name: party.name,
-				date: new Date(party.date),
-				unread: party.unread || 0,
-			}));
-		},
-	});
+  return { parties, isLoading, error };
 }

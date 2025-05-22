@@ -1,20 +1,20 @@
-import { FlatList, StyleSheet, View, Image } from 'react-native';
-import { useState, useEffect } from 'react';
-import ThemedText from './ThemedText';
-import { UserType } from '@/types/UserType';
 import useThemeColors from '@/hooks/useThemeColors';
-import { IconSymbol } from './IconSymbol';
+import { UserType } from '@/types/UserType';
+import { useEffect, useState } from 'react';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import Animated, {
-	useSharedValue,
 	useAnimatedStyle,
+	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import { IconSymbol } from './IconSymbol';
 import ThemedButton from './ThemedButton';
+import ThemedText from './ThemedText';
 
 type UserListVariant = 'main' | 'sub';
 
 type Props = {
-	data: Array<UserType>;
+	data: UserType[];
 	variant?: UserListVariant;
 };
 
@@ -72,7 +72,7 @@ export default function UserList({ data, variant = 'main' }: Props) {
 				renderItem={({ item }) => (
 					<View style={[styles.listItem, config.listItemStyle]}>
 						<Image
-							source={{ uri: item.profilePick.toString() }}
+							source={{ uri: item.profilePick?.toString() }}
 							style={styles.profilePick}
 						/>
 						<ThemedText variant="body3" style={{ flex: 1 }}>

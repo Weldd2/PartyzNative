@@ -1,7 +1,7 @@
 import useThemeColors from '@/hooks/useThemeColors';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import ThemedText from '../ThemedText';
-import React from 'react';
 
 type CardSubHeaderProps = {
 	children: React.ReactNode;
@@ -14,7 +14,6 @@ type CardSubContentProps = {
 const createStyles = (colors: { white: string }) =>
 	StyleSheet.create({
 		headerContainer: {
-			marginBottom: 10,
 			marginTop: 20,
 		},
 	});
@@ -24,7 +23,7 @@ export function CardSubHeader({ children }: CardSubHeaderProps) {
 	const styles = createStyles(colors);
 	return (
 		<View style={styles.headerContainer}>
-			<ThemedText variant="headline">{children}</ThemedText>
+			<ThemedText variant="headline3">{children}</ThemedText>
 		</View>
 	);
 }

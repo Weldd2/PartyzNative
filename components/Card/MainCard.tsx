@@ -13,9 +13,7 @@ type CardContentProps = {
 
 const createStyles = (colors: { white: string }) =>
 	StyleSheet.create({
-		headerContainer: {
-			marginBottom: 20,
-		},
+		headerContainer: {},
 	});
 
 export function CardHeader({ children }: CardHeaderProps) {
@@ -23,7 +21,7 @@ export function CardHeader({ children }: CardHeaderProps) {
 	const styles = createStyles(colors);
 	return (
 		<View style={styles.headerContainer}>
-			<ThemedText variant="headline">{children}</ThemedText>
+			<ThemedText variant="headline2">{children}</ThemedText>
 		</View>
 	);
 }

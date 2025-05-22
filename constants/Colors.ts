@@ -2,6 +2,7 @@ export const Colors = {
 	light: {
 		primary: '#193C31',
 		secondary: '#E98A15',
+		third: '#F093BC',
 		greyDark: '#14213D',
 		greyDark02: 'rgba(20, 33, 61, 0.2)',
 		greyLight: 'rgba(25, 60, 49, 0.7)',
@@ -11,6 +12,7 @@ export const Colors = {
 	dark: {
 		primary: '#193C31',
 		secondary: '#F5D84D',
+		third: '#F093BC',
 		greyDark: '#14213D',
 		greyDark02: 'rgba(20, 33, 61, 0.2)',
 		greyLight: 'rgba(25, 60, 49, 0.7)',

@@ -1,37 +1,38 @@
-import { Card } from '@/components/Card/Card';
 import Header from '@/components/Header';
-import UserList from '@/components/UserList';
+import PartyList from '@/components/PartyList';
+import ThemedText from '@/components/ThemedText';
+import { useParties } from '@/hooks/useParties';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 const style = StyleSheet.create({
 	viewContainer: {
 		paddingHorizontal: 15,
+		flex: 1,
 	},
 });
 
 export default function Parties() {
-	const user = {
-		id: 1,
-		firstname: 'antoine',
-		lastname: 'mura',
-		phoneNumber: '+33782280686',
-	};
+	const { parties, isLoading, error } = useParties();
+
+	if (isLoading) {
+		return (
+			<SafeAreaView>
+				<ThemedText>chargement...</ThemedText>
+			</SafeAreaView>
+		);
+	}
+
+	if (error) {
+		console.error('Erreur lors du chargement des utilisateurs:', error);
+	}
+
 	return (
 		<>
-			<SafeAreaView>
-				<Header user={user} />
+			<SafeAreaView style={{ flex: 1 }}>
 				<View style={style.viewContainer}>
-					<Card icon="person.2.fill">
-						<Card.Header>Main Title</Card.Header>
-						<Card.Content>
-							<UserList data={[]} />
-						</Card.Content>
-
-						<Card.SubHeader>Sub Section</Card.SubHeader>
-						<Card.SubContent>
-							<UserList data={[]} />
-						</Card.SubContent>
-					</Card>
+					<Header user={parties[0].members[0]} />
+					<ThemedText variant="headline2">Soirées à venir</ThemedText>
+					<PartyList data={parties} />
 				</View>
 			</SafeAreaView>
 		</>

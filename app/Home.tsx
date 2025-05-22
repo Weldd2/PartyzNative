@@ -9,9 +9,9 @@ const style = StyleSheet.create({
 	homeContainer: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		flex: 1,
 		paddingHorizontal: 15,
 		gap: 40,
+		flex: 1,
 	},
 	logoContainer: {
 		alignSelf: 'stretch',
@@ -20,7 +20,9 @@ const style = StyleSheet.create({
 	btnContainer: {
 		alignSelf: 'stretch',
 	},
-	danseur: {},
+	danseur: {
+		width: 100,
+	},
 });
 
 export default function Home() {

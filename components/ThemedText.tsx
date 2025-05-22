@@ -1,19 +1,12 @@
-import useThemeColors from '@/hooks/useThemeColors';
-import { StyleSheet, Text } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import useThemeColors from '@/hooks/useThemeColors';
+import { Text } from 'react-native';
 
 const getVariantStyle = (colors: typeof Colors.light) => ({
 	body3: {
 		fontSize: 16,
 		lineHeight: 20,
 		fontFamily: 'HossRound',
-	},
-	logo: {},
-	sub: {
-		fontSize: 16,
-		lineHeight: 16,
-		fontFamily: 'HossRound',
-		color: colors.greyLight,
 	},
 	title: {
 		fontSize: 34,
@@ -22,15 +15,23 @@ const getVariantStyle = (colors: typeof Colors.light) => ({
 		fontFamily: 'HossRoundBlack',
 		color: colors.primary,
 	},
-	headline: {
+	headline1: {
+		fontSize: 24,
+		lineHeight: 24,
+		marginBottom: 10,
+		fontFamily: 'HossRoundBlack',
+		color: colors.primary,
+	},
+	headline2: {
 		fontSize: 24,
 		lineHeight: 28,
 		marginBottom: 10,
 		fontFamily: 'HossRound',
 		color: colors.primary,
 	},
-	headline2: {
+	headline3: {
 		fontSize: 18,
+		marginBottom: 10,
 		lineHeight: 20,
 		fontFamily: 'HossRound',
 		color: colors.primary,
