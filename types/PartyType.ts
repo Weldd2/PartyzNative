@@ -1,6 +1,9 @@
+import { UserType } from "./UserType";
+
 export type PartyType = {
 	id: number;
-	name: string;
-	date: Date;
+	title: string;
+	date: string;
+	members: UserType[]
 	unread: number;
 };

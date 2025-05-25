@@ -30,7 +30,7 @@ export default function Parties() {
 		<>
 			<SafeAreaView style={{ flex: 1 }}>
 				<View style={style.viewContainer}>
-					<Header user={parties[0].members[0]} />
+					<Header />
 					<ThemedText variant="headline2">Soirées à venir</ThemedText>
 					<PartyList data={parties} />
 				</View>

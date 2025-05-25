@@ -43,7 +43,9 @@ export default function Home() {
 						text="J'ai déjà un compte"
 					/>
 					<ThemedButton
-						onPress={() => navigation.navigate('Parties')}
+						onPress={() =>
+							navigation.navigate('App', { screen: 'Parties' })
+						}
 						text="S'inscrire"
 					/>
 				</View>

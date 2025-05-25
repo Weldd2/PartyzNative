@@ -1,17 +1,22 @@
+import { RootStackParamList } from '@/App';
+import ThemedText from '@/components/ThemedText';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
-import ThemedText from './ThemedText';
 
 type Props = {
 	data: PartyType[];
 };
 
+type PartiesNavProp = NativeStackNavigationProp<RootStackParamList, 'App'>;
+
 export default function PartyList({ data }: Props) {
 	const colors = useThemeColors();
-	const navigation = useNavigation();
+	const navigation = useNavigation<PartiesNavProp>();
 	const styles = createStyles(colors);
+
 	return (
 		<View style={{ flex: 1 }}>
 			<FlatList
@@ -23,7 +28,7 @@ export default function PartyList({ data }: Props) {
 					<Pressable
 						style={[styles.listItem]}
 						onPress={() =>
-							navigation.navigate('Party Detail', {
+							navigation.navigate('Party', {
 								party: item,
 							})
 						}
@@ -36,10 +41,16 @@ export default function PartyList({ data }: Props) {
 						</View>
 						<View style={{ flex: 1, flexDirection: 'row' }}>
 							<ThemedText style={{ flex: 1 }}>
-								{item.date.toLocaleDateString('fr-FR', {
-									day: 'numeric',
-									month: 'long',
-								})}
+								{item.date &&
+								!isNaN(new Date(item.date).getTime())
+									? new Date(item.date).toLocaleDateString(
+											'fr-FR',
+											{
+												day: 'numeric',
+												month: 'long',
+											}
+									  )
+									: 'Date non disponible'}
 							</ThemedText>
 							<ThemedText style={[styles.unread]}>4</ThemedText>
 						</View>

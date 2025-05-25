@@ -1,9 +1,13 @@
-import { IconSymbol } from '@/components/IconSymbol';
-import Logo from '@/components/Logo';
 import useThemeColors from '@/hooks/useThemeColors';
+import { PartyType } from '@/types/PartyType';
 import { Pressable, StyleSheet, View } from 'react-native';
+import { IconSymbol } from './IconSymbol';
+import ThemedText from './ThemedText';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
+	viewContainer: {
+		flex: 1,
+	},
 	header: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -12,10 +16,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function Header() {
+type Props = {
+	party: PartyType;
+};
+
+export default function PartyHeader({ party }: Props) {
 	const colors = useThemeColors();
 	return (
-		<View style={styles.header}>
+		<View style={style.header}>
 			<View>
 				<IconSymbol
 					name="person.crop.circle"
@@ -23,7 +31,9 @@ export default function Header() {
 					color={colors.primary}
 				/>
 			</View>
-			<Logo />
+			<ThemedText variant="headline1" style={{ marginBottom: 0 }}>
+				{party.title}
+			</ThemedText>
 			<Pressable>
 				<IconSymbol
 					name="ellipsis.circle"
