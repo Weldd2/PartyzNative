@@ -1,7 +1,8 @@
 import { Card } from '@/components/Card/Card';
+import MapScreen from '@/components/Map';
 import UserList from '@/components/UserList';
 import { PartyType } from '@/types/PartyType';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 const style = StyleSheet.create({
 	viewContainer: {
@@ -15,23 +16,22 @@ type Props = {
 
 export default function PartyInformations({ party }: Props) {
 	return (
-		<ScrollView>
-			<View style={style.viewContainer}>
-				<Card icon="person.2.fill">
-					<Card.Header>
-						Liste des participants ({party.members.length})
-					</Card.Header>
-					<Card.Content>
-						<UserList data={party.members} />
-					</Card.Content>
-					<Card.SubHeader>
-						En attente ({party.members.length})
-					</Card.SubHeader>
-					<Card.SubContent>
-						<UserList data={party.members} variant="sub" />
-					</Card.SubContent>
-				</Card>
-			</View>
+		<ScrollView style={style.viewContainer}>
+			<Card icon="person.2.fill" style={{ marginBottom: 20 }}>
+				<Card.Header>
+					Liste des participants ({party.members.length})
+				</Card.Header>
+				<Card.Content>
+					<UserList data={party.members} />
+				</Card.Content>
+				<Card.SubHeader>
+					En attente ({party.members.length})
+				</Card.SubHeader>
+				<Card.SubContent>
+					<UserList data={party.members} variant="sub" />
+				</Card.SubContent>
+			</Card>
+			<MapScreen address={party.address} />
 		</ScrollView>
 	);
 }

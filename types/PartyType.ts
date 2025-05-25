@@ -4,6 +4,9 @@ export type PartyType = {
 	id: number;
 	title: string;
 	date: string;
-	members: UserType[]
+	address: string;
+	postalCode: string;
+	city: string;
+	members: UserType[];
 	unread: number;
 };
