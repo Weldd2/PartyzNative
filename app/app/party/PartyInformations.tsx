@@ -1,7 +1,6 @@
-import { PartyStackParamList } from '@/app/app/party/_layout';
 import { Card } from '@/components/Card/Card';
 import UserList from '@/components/UserList';
-import { RouteProp } from '@react-navigation/native';
+import { PartyType } from '@/types/PartyType';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 const style = StyleSheet.create({
@@ -11,11 +10,10 @@ const style = StyleSheet.create({
 });
 
 type Props = {
-	route: RouteProp<PartyStackParamList, 'PartyInformations'>;
+	party: PartyType;
 };
 
-export default function PartyInformations({ route }: Props) {
-	const { party } = route.params;
+export default function PartyInformations({ party }: Props) {
 	return (
 		<ScrollView>
 			<View style={style.viewContainer}>
@@ -26,7 +24,6 @@ export default function PartyInformations({ route }: Props) {
 					<Card.Content>
 						<UserList data={party.members} />
 					</Card.Content>
-
 					<Card.SubHeader>
 						En attente ({party.members.length})
 					</Card.SubHeader>
