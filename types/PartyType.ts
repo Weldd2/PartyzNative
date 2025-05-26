@@ -1,4 +1,5 @@
-import { UserType } from "./UserType";
+import { ShoppingListItem } from "@/types/ShoppingListItem";
+import { UserType } from "@/types/UserType";
 
 export type PartyType = {
 	id: number;
@@ -8,5 +9,6 @@ export type PartyType = {
 	postalCode: string;
 	city: string;
 	members: UserType[];
+	shoppingList: ShoppingListItem[];
 	unread: number;
 };

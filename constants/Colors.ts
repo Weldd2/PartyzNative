@@ -8,6 +8,8 @@ export const Colors = {
 		greyLight: 'rgba(25, 60, 49, 0.7)',
 		greyWhite: '#F6F3F1',
 		white: '#FBFAF9',
+		success: '#2FA26A',
+		error: '#C62C2C'
 	},
 	dark: {
 		primary: '#193C31',
@@ -18,5 +20,7 @@ export const Colors = {
 		greyLight: 'rgba(25, 60, 49, 0.7)',
 		greyWhite: '#F6F3F1',
 		white: '#FBFAF9',
+		success: '#2FA26A',
+		error: '#C62C2C'
 	},
 };

@@ -1,7 +1,7 @@
+import ThemedText from '@/components/ThemedText';
 import useThemeColors from '@/hooks/useThemeColors';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import ThemedText from '../ThemedText';
 
 type CardSubHeaderProps = {
 	children: React.ReactNode;
