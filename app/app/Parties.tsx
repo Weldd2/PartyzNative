@@ -31,7 +31,7 @@ export default function Parties() {
 			<SafeAreaView>
 				<View style={style.loadingContainer}>
 					<ActivityIndicator size="large" color={colors.primary} />
-					<ThemedText>Chargement de la carte…</ThemedText>
+					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
 			</SafeAreaView>
 		);
