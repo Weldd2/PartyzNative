@@ -2,7 +2,7 @@ import useThemeColors from '@/hooks/useThemeColors';
 import { useAssets } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native';
 import { LeafletView } from 'react-native-leaflet-view';
 import ThemedText from './ThemedText';
 
@@ -29,9 +29,6 @@ export default function MapScreen({ address }: Props) {
 	const [errorGeo, setErrorGeo] = useState<string | null>(null);
 	const colors = useThemeColors();
 	const style = createStyles(colors);
-
-	console.log(address);
-	// Chargement HTML Leaflet
 	const [webViewContent, setWebViewContent] = useState<string | null>(null);
 	const [assets] = useAssets([require('@/assets/leaflet.html')]);
 
@@ -59,8 +56,8 @@ export default function MapScreen({ address }: Props) {
 	if (loadingGeo || !webViewContent) {
 		return (
 			<View style={style.loadingContainer}>
-				<ActivityIndicator size="large" color="#0000ff" />
-				<Text style={style.loadingText}>Chargement de la carte…</Text>
+				<ActivityIndicator size="large" color={colors.primary} />
+				<ThemedText>Chargement de la carte…</ThemedText>
 			</View>
 		);
 	}

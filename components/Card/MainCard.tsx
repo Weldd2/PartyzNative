@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import ThemedText from '../ThemedText';
 
 type CardHeaderProps = {
+	variant?: 'primary' | 'secondary';
 	children: React.ReactNode;
 };
 
@@ -16,12 +17,17 @@ const createStyles = (colors: { white: string }) =>
 		headerContainer: {},
 	});
 
-export function CardHeader({ children }: CardHeaderProps) {
+export function CardHeader({ variant, children }: CardHeaderProps) {
 	const colors = useThemeColors();
 	const styles = createStyles(colors);
 	return (
 		<View style={styles.headerContainer}>
-			<ThemedText variant="headline2">{children}</ThemedText>
+			<ThemedText
+				color={variant === 'secondary' ? 'white' : 'primary'}
+				variant="headline2"
+			>
+				{children}
+			</ThemedText>
 		</View>
 	);
 }

@@ -6,24 +6,32 @@ import { IconSymbol, IconSymbolName } from '../IconSymbol';
 import { CardContent, CardHeader } from './MainCard';
 import { CardSubContent, CardSubHeader } from './SubCard';
 
-const createStyles = (colors: { white: string }) =>
+const createStyles = (
+	variant: string,
+	colors: { primary: string; white: string }
+) =>
 	StyleSheet.create({
 		card: {
 			marginTop: 30,
+			flex: 1,
 		},
 		cardImage: {
 			padding: 10,
 			margin: 0,
 			borderRadius: 100,
 			position: 'absolute',
-			backgroundColor: colors.white,
+			backgroundColor:
+				variant === 'primary' ? colors.white : colors.primary,
 			top: -20,
 			left: 30,
 		},
 		cardWrapper: {
-			backgroundColor: colors.white,
+			backgroundColor:
+				variant === 'primary' ? colors.white : colors.primary,
 			paddingHorizontal: 20,
 			paddingTop: 40,
+			height: '100%',
+			overflow: 'hidden',
 			paddingBottom: 20,
 			borderRadius: 10,
 		},
@@ -34,24 +42,45 @@ const createStyles = (colors: { white: string }) =>
 
 // Type pour le composant principal
 type CardRootProps = ViewProps & {
+	variant?: 'primary' | 'secondary';
 	icon: IconSymbolName;
 	children: React.ReactNode;
 };
 
 // Composant principal
-function CardRoot({ style, children, icon, ...rest }: CardRootProps) {
+function CardRoot({
+	variant = 'primary',
+	style,
+	children,
+	icon,
+	...rest
+}: CardRootProps) {
 	const colors = useThemeColors();
 	const shadow = useThemeShadows();
-	const styles = createStyles(colors);
+	const styles = createStyles(variant, colors);
 
 	return (
 		<View style={[styles.card]}>
 			<View style={[styles.cardImage, shadow.dp25]}>
-				<IconSymbol size={40} color="#808080" name={icon} />
+				<IconSymbol
+					size={40}
+					color={
+						variant === 'secondary' ? colors.white : colors.primary
+					}
+					name={icon}
+				/>
 			</View>
 			<View style={[style, styles.cardWrapper, shadow.dp25]} {...rest}>
 				<View style={[styles.cardImage]}>
-					<IconSymbol size={40} color={colors.primary} name={icon} />
+					<IconSymbol
+						size={40}
+						color={
+							variant === 'secondary'
+								? colors.white
+								: colors.primary
+						}
+						name={icon}
+					/>
 				</View>
 				<View>{children}</View>
 			</View>

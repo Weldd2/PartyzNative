@@ -7,6 +7,7 @@ const getVariantStyle = (colors: typeof Colors.light) => ({
 		fontSize: 16,
 		lineHeight: 20,
 		fontFamily: 'HossRound',
+		flexShrink: 1,
 	},
 	title: {
 		fontSize: 34,

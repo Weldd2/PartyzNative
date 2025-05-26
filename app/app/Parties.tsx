@@ -2,22 +2,37 @@ import Header from '@/components/Header';
 import PartyList from '@/components/PartyList';
 import ThemedText from '@/components/ThemedText';
 import { useParties } from '@/hooks/useParties';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import useThemeColors from '@/hooks/useThemeColors';
+import {
+	ActivityIndicator,
+	SafeAreaView,
+	StyleSheet,
+	View,
+} from 'react-native';
 
 const style = StyleSheet.create({
 	viewContainer: {
 		paddingHorizontal: 15,
 		flex: 1,
 	},
+	loadingContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		minHeight: 300,
+	},
 });
 
 export default function Parties() {
 	const { parties, isLoading, error } = useParties();
-
+	const colors = useThemeColors();
 	if (isLoading) {
 		return (
 			<SafeAreaView>
-				<ThemedText>chargement...</ThemedText>
+				<View style={style.loadingContainer}>
+					<ActivityIndicator size="large" color={colors.primary} />
+					<ThemedText>Chargement de la carte…</ThemedText>
+				</View>
 			</SafeAreaView>
 		);
 	}
