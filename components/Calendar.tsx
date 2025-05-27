@@ -105,9 +105,30 @@ export default function ScreenCalendar({ date, events }: Props) {
 				? { marked: true, dotColor: colors.primary }
 				: {}),
 		},
+		// Marquer le jour en paramètre avec une couleur rouge
+		[date.toISOString().split('T')[0]]: {
+			...markedDates?.[date.toISOString().split('T')[0]],
+			customStyles: {
+				container: {
+					backgroundColor: colors.error,
+					borderRadius: 10,
+				},
+				text: {
+					color: colors.greyWhite,
+					fontWeight: 'bold',
+				},
+			},
+			// Conserver les autres propriétés si la date est aussi sélectionnée ou a des événements
+			...(dateSelectionnee === date.toISOString().split('T')[0]
+				? { selected: true }
+				: {}),
+			...(evenements[date.toISOString().split('T')[0]]
+				? { marked: true, dotColor: colors.primary }
+				: {}),
+		},
 	};
 
-	const formatHeure = (dateString) => {
+	const formatHeure = (dateString: string) => {
 		return new Date(dateString).toLocaleTimeString('fr-FR', {
 			hour: '2-digit',
 			minute: '2-digit',
@@ -118,13 +139,14 @@ export default function ScreenCalendar({ date, events }: Props) {
 		<View>
 			<Calendar
 				current={date.toISOString().split('T')[0]}
+				markingType={'custom'}
 				theme={{
 					backgroundColor: colors.primary,
 					calendarBackground: colors.greyWhite,
 					textSectionTitleColor: colors.primary,
 					selectedDayBackgroundColor: colors.primary,
 					selectedDayTextColor: colors.white,
-					todayTextColor: colors.primary,
+					todayTextColor: 'red',
 					dayTextColor: '#2d4150',
 					textDisabledColor: '#d9e1e8',
 					arrowColor: colors.primary,
@@ -212,7 +234,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f8f9fa',
 		padding: 15,
 		marginBottom: 10,
-		borderRadius: 8,
+		borderRadius: 10,
 		borderLeftWidth: 4,
 	},
 	heureEvenement: {
