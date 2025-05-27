@@ -18,7 +18,6 @@ const createStyles = (colors: { greyWhite: string; primary: string }) =>
 			flex: 1,
 			position: 'relative',
 			maxHeight: 600,
-			// paddingVertical: 10,
 			borderRadius: 10,
 		},
 	});
