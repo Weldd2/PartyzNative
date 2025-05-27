@@ -80,10 +80,10 @@ export default function DateCard({ party }: Props) {
 				title: party.title,
 				startDate: new Date(party.date),
 				endDate: new Date(
-					new Date(party.date).getTime() + 60 * 60 * 1000
+					new Date(party.date).getTime() + 3 * 60 * 60 * 1000
 				),
 				timeZone: 'Europe/Paris',
-				location: 'Le Havre',
+				location: party.address,
 			};
 
 			try {
