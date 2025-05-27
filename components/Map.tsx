@@ -64,9 +64,6 @@ export default function MapScreen({ address }: Props) {
 
 	return (
 		<View style={style.container}>
-			<View style={style.addressText}>
-				<ThemedText color="white">{address}</ThemedText>
-			</View>
 			<View style={style.mapContainer}>
 				<LeafletView
 					source={{ html: webViewContent }}
@@ -116,13 +113,7 @@ const createStyles = (colors: {
 			borderLeftColor: '#ffc107',
 		},
 		warningText: { color: '#856404', fontSize: 14 },
-		addressText: {
-			backgroundColor: colors.primary,
-			padding: 6,
-			alignItems: 'center',
-		},
 		mapContainer: {
 			flex: 1,
-			aspectRatio: 1,
 		},
 	});
