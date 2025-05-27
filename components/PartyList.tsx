@@ -7,21 +7,21 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 
 type Props = {
-	data: PartyType[];
+	parties: PartyType[];
 };
 
 type PartiesNavProp = NativeStackNavigationProp<RootStackParamList, 'App'>;
 
-export default function PartyList({ data }: Props) {
+export default function PartyList({ parties }: Props) {
 	const colors = useThemeColors();
 	const navigation = useNavigation<PartiesNavProp>();
 	const styles = createStyles(colors);
-
 	return (
-		<View style={{ flex: 1 }}>
+		<View>
 			<FlatList
 				style={styles.list}
-				data={data}
+				data={parties}
+				contentInset={{ bottom: parties.length * 13 }}
 				scrollEnabled={true}
 				ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
 				renderItem={({ item }) => (
@@ -70,7 +70,9 @@ const createStyles = (colors: {
 	greyWhite: string;
 }) =>
 	StyleSheet.create({
-		list: {},
+		list: {
+			paddingBottom: 20,
+		},
 		listItem: {
 			backgroundColor: colors.white,
 			borderRadius: 10,

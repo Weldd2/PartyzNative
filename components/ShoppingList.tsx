@@ -18,6 +18,8 @@ export default function ShoppingList({ data }: Props) {
 	const [expanded, setExpanded] = useState(false);
 	const colors = useThemeColors();
 
+	if (!data) return <></>;
+
 	// Paramètres selon la variante
 	const config = {
 		itemHeight: 40,

@@ -9,6 +9,7 @@ export type PartyType = {
 	postalCode: string;
 	city: string;
 	members: UserType[];
+	owner: UserType;
 	shoppingList: ShoppingListItem[];
 	unread: number;
 };

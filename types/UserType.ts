@@ -1,3 +1,5 @@
+import { PartyType } from "@/types/PartyType";
+
 export type UserType = {
 	'@id'?: string;
 	'@type'?: string;
@@ -6,7 +8,7 @@ export type UserType = {
 	lastname: string;
 	phoneNumber: string;
 	roles?: string[];
-	parties?: any[];
+	parties?: PartyType[];
+	partiesAsOwner?: PartyType[];
 	userIdentifier?: string;
-	profilePick: string; // URL de l'image de profil (obligatoire pour UserList)
 };

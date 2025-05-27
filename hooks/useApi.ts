@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import axios, { isAxiosError } from 'axios';
 
 const apiClient = axios.create({
-	baseURL: "https://c2c6-81-255-67-28.ngrok-free.app/api",
+	baseURL: "https://dbe6-81-255-67-28.ngrok-free.app/api",
 	timeout: 10000,
 })
 

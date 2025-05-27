@@ -1,8 +1,10 @@
 import Header from '@/components/Header';
 import PartyList from '@/components/PartyList';
 import ThemedText from '@/components/ThemedText';
-import { useParties } from '@/hooks/useParties';
+import { useUserContext } from '@/context/userContext';
+import { useApi } from '@/hooks/useApi';
 import useThemeColors from '@/hooks/useThemeColors';
+import { PartyType } from '@/types/PartyType';
 import {
 	ActivityIndicator,
 	SafeAreaView,
@@ -13,6 +15,7 @@ import {
 const style = StyleSheet.create({
 	viewContainer: {
 		paddingHorizontal: 15,
+		gap: 10,
 		flex: 1,
 	},
 	loadingContainer: {
@@ -24,9 +27,19 @@ const style = StyleSheet.create({
 });
 
 export default function Parties() {
-	const { parties, isLoading, error } = useParties();
+	const {
+		user,
+		isLoading: isLoadingUser,
+		error: errorUser,
+	} = useUserContext();
+	const [parties, isLoadingParties, errorParties] = useApi<PartyType[]>(
+		`/users/${user?.id}/parties`
+	);
+	const [partiesAsOwner, isLoadingPartiesAsOwner, errorPartiesAsOwner] =
+		useApi<PartyType[]>(`/users/${user?.id}/partiesAsOwner`);
+
 	const colors = useThemeColors();
-	if (isLoading) {
+	if (isLoadingUser || isLoadingParties || isLoadingPartiesAsOwner) {
 		return (
 			<SafeAreaView>
 				<View style={style.loadingContainer}>
@@ -37,8 +50,23 @@ export default function Parties() {
 		);
 	}
 
-	if (error) {
-		console.error('Erreur lors du chargement des utilisateurs:', error);
+	if (
+		!parties ||
+		!user ||
+		!partiesAsOwner ||
+		errorUser ||
+		errorParties ||
+		errorPartiesAsOwner
+	) {
+		return (
+			<SafeAreaView>
+				<View style={style.loadingContainer}>
+					<ThemedText>
+						Erreur lors du chargement de la partie
+					</ThemedText>
+				</View>
+			</SafeAreaView>
+		);
 	}
 
 	return (
@@ -46,8 +74,10 @@ export default function Parties() {
 			<SafeAreaView style={{ flex: 1 }}>
 				<View style={style.viewContainer}>
 					<Header />
+					<ThemedText variant="headline2">Vos soirées</ThemedText>
+					<PartyList parties={partiesAsOwner} />
 					<ThemedText variant="headline2">Soirées à venir</ThemedText>
-					<PartyList data={parties} />
+					<PartyList parties={parties} />
 				</View>
 			</SafeAreaView>
 		</>
