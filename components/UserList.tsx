@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ITEM_HEIGHT = 40;
-const MAX_VISIBLE_ITEMS = 6;
+const MAX_VISIBLE_ITEMS = 6.5;
 
 export default function UserList({ owner, members }: Props) {
 	const colors = useThemeColors();

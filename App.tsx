@@ -22,7 +22,7 @@ export type RootStackParamList = {
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function AppNavigator() {
-	const [user, isLoading, error] = useApi<UserType>('/users/23');
+	const [user, isLoading, error] = useApi<UserType>('/users/1');
 	const colors = useThemeColors();
 
 	// Si l'utilisateur n'est pas chargé et qu'il n'y a pas d'erreur, afficher Auth

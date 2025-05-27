@@ -8,8 +8,10 @@ import UserList from '@/components/UserList';
 import { useApi } from '@/hooks/useApi';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
+import { ShoppingListContribution } from '@/types/ShoppingListContribution';
 import {
 	ActivityIndicator,
+	FlatList,
 	SafeAreaView,
 	ScrollView,
 	StyleSheet,
@@ -37,15 +39,19 @@ const style = StyleSheet.create({
 
 type Props = {
 	partyId: number;
+	userId: number;
 };
 
-export default function PartyInformations({ partyId }: Props) {
+export default function PartyInformations({ partyId, userId }: Props) {
 	const colors = useThemeColors();
 	const [party, isLoadingParty, errorParty] = useApi<PartyType>(
 		`/parties/${partyId}`
 	);
+	const [contributions, isLoadingContributions, errorContributions] = useApi<
+		ShoppingListContribution[]
+	>(`/users/${userId}/contributions`);
 
-	if (isLoadingParty) {
+	if (isLoadingParty || isLoadingContributions) {
 		return (
 			<SafeAreaView>
 				<View style={style.loadingContainer}>
@@ -56,7 +62,7 @@ export default function PartyInformations({ partyId }: Props) {
 		);
 	}
 
-	if (!party || errorParty) {
+	if (!party || !contributions || errorParty || errorContributions) {
 		return (
 			<SafeAreaView>
 				<View style={style.loadingContainer}>
@@ -83,26 +89,47 @@ export default function PartyInformations({ partyId }: Props) {
 					<Card.Content>
 						<UserList owner={party.owner} members={party.members} />
 					</Card.Content>
-					{/* <Card.SubHeader>
-						En attente ({party.members.length})
-					</Card.SubHeader>
-					<Card.SubContent>
-						<UserList data={party.members} variant="sub" />
-					</Card.SubContent> */}
 				</Card>
-				<Card icon="cart">
-					<Card.Header>Liste de course</Card.Header>
-					<Card.Content>
-						<ShoppingList data={party.shoppingList} />
-					</Card.Content>
-					{/* <Card.SubHeader>Au total, je ramène</Card.SubHeader>
-					<Card.SubContent>
-						<FlatList
-							data={user.contributions}
-							renderItem={({ item }) => <></>}
-						/>
-					</Card.SubContent> */}
-				</Card>
+				{party.shoppingList ? (
+					<Card icon="cart">
+						<Card.Header>Liste de courses</Card.Header>
+						<Card.Content>
+							<ShoppingList items={party.shoppingList} />
+						</Card.Content>
+						{contributions.length > 0 ? (
+							<>
+								<Card.SubHeader>Je ramène</Card.SubHeader>
+								<Card.SubContent>
+									<FlatList
+										data={contributions}
+										keyExtractor={(item) =>
+											item.id.toString()
+										}
+										renderItem={({ item }) => (
+											<View
+												style={{ flexDirection: 'row' }}
+											>
+												<ThemedText
+													variant="body3"
+													style={{ flex: 1 }}
+												>
+													{item.shoppingListItem.name}
+												</ThemedText>
+												<ThemedText>
+													x{item.quantity}
+												</ThemedText>
+											</View>
+										)}
+									/>
+								</Card.SubContent>
+							</>
+						) : (
+							<></>
+						)}
+					</Card>
+				) : (
+					<></>
+				)}
 				<MapScreen address={party.address} />
 			</View>
 		</ScrollView>

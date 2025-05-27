@@ -1,65 +1,28 @@
+import ThemedText from '@/components/ThemedText';
 import useThemeColors from '@/hooks/useThemeColors';
 import { ShoppingListItem } from '@/types/ShoppingListItem';
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withTiming,
-} from 'react-native-reanimated';
-import ThemedButton from './ThemedButton';
-import ThemedText from './ThemedText';
 
 type Props = {
-	data: ShoppingListItem[];
+	items: ShoppingListItem[];
 };
 
-export default function ShoppingList({ data }: Props) {
-	const [expanded, setExpanded] = useState(false);
+const ITEM_HEIGHT = 40;
+const MAX_VISIBLE_ITEMS = 7.5;
+
+export default function ShoppingList({ items = [] }: Props) {
 	const colors = useThemeColors();
-
-	if (!data) return <></>;
-
-	// Paramètres selon la variante
-	const config = {
-		itemHeight: 40,
-		collapsedCount: 5,
-		showStar: true,
-		listItemStyle: {
-			height: 40,
-		},
-	};
-
-	const styles = createStyles(colors, config);
-
-	const expandedHeight = (data.length + 1) * config.itemHeight + 5;
-	const collapsedHeight =
-		Math.min(data.length + 1, config.collapsedCount + 1) *
-		(config.itemHeight + 1);
-	const height = useSharedValue(collapsedHeight);
-
-	useEffect(() => {
-		height.value = withTiming(expanded ? expandedHeight : collapsedHeight, {
-			duration: 350,
-		});
-	}, [expanded, expandedHeight, collapsedHeight]);
-
-	const animatedStyle = useAnimatedStyle(() => ({
-		height: height.value,
-		overflow: 'hidden',
-	}));
-
-	const displayData = expanded ? data : data.slice(0, config.collapsedCount);
+	const listHeight = Math.min(items.length, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
 
 	return (
-		<Animated.View style={[animatedStyle]}>
+		<View style={[styles.container, { borderColor: colors.greyDark02 }]}>
 			<FlatList
-				style={styles.list}
-				data={displayData}
-				scrollEnabled={false}
+				data={items}
+				keyExtractor={(item) => item.id.toString()}
 				renderItem={({ item }) => (
-					<View style={[styles.listItem, config.listItemStyle]}>
-						<ThemedText variant="body3" style={{ flex: 1 }}>
+					<View style={styles.listItem}>
+						<ThemedText variant="body3" style={styles.text}>
 							{item.name}
 						</ThemedText>
 						<ThemedText
@@ -73,51 +36,38 @@ export default function ShoppingList({ data }: Props) {
 						</ThemedText>
 					</View>
 				)}
-				keyExtractor={(item) => item.id.toString()}
+				style={[styles.list, { height: listHeight }]}
+				scrollEnabled={items.length > MAX_VISIBLE_ITEMS}
+				showsVerticalScrollIndicator={items.length > MAX_VISIBLE_ITEMS}
 			/>
-			{data.length > 7 && (
-				<ThemedButton
-					variant="primary"
-					onPress={() => setExpanded((prev) => !prev)}
-					text={expanded ? 'Voir moins' : 'Voir plus'}
-				/>
-			)}
-		</Animated.View>
+		</View>
 	);
 }
 
-const createStyles = (
-	colors: {
-		white: string;
-		primary: string;
-		greyDark02: string;
-		greyWhite: string;
+const styles = StyleSheet.create({
+	container: {
+		borderRadius: 10,
+		borderWidth: 1,
+		overflow: 'hidden',
 	},
-	config: {
-		listItemStyle: { height: number };
-	}
-) =>
-	StyleSheet.create({
-		list: {
-			borderRadius: 10,
-			borderWidth: 1,
-			borderColor: colors.greyDark02,
-		},
-		listItem: {
-			display: 'flex',
-			flexDirection: 'row',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			paddingHorizontal: 10,
-			gap: 10,
-			flex: 1,
-			...config.listItemStyle,
-		},
-		profilePick: {
-			borderColor: colors.primary,
-			borderRadius: 100,
-			width: 30,
-			height: 30,
-			borderWidth: 1.5,
-		},
-	});
+	list: {
+		width: '100%',
+	},
+	listItem: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		height: ITEM_HEIGHT,
+		paddingHorizontal: 10,
+	},
+	profilePic: {
+		width: 30,
+		height: 30,
+		borderRadius: 15,
+		borderWidth: 1.5,
+		marginRight: 10,
+	},
+	text: {
+		flex: 1,
+	},
+});

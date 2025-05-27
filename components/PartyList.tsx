@@ -16,12 +16,15 @@ export default function PartyList({ parties }: Props) {
 	const colors = useThemeColors();
 	const navigation = useNavigation<PartiesNavProp>();
 	const styles = createStyles(colors);
+	const futureParties = parties.filter(
+		(party) => party.date && new Date(party.date) > new Date()
+	);
 	return (
 		<View>
 			<FlatList
 				style={styles.list}
-				data={parties}
-				contentInset={{ bottom: parties.length * 13 }}
+				data={futureParties}
+				contentInset={{ bottom: futureParties.length * 13 }}
 				scrollEnabled={true}
 				ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
 				renderItem={({ item }) => (

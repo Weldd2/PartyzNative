@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 
 const getVariantStyle = (colors: typeof Colors.light) => ({
 	body3: {
-		fontSize: 16,
+		fontSize: 18,
 		lineHeight: 20,
 		fontFamily: 'HossRound',
 		flexShrink: 1,
