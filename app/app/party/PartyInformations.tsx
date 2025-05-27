@@ -49,7 +49,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	);
 	const [contributions, isLoadingContributions, errorContributions] = useApi<
 		ShoppingListContribution[]
-	>(`/users/${userId}/contributions`);
+	>(`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`);
 
 	if (isLoadingParty || isLoadingContributions) {
 		return (
@@ -90,7 +90,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 						<UserList owner={party.owner} members={party.members} />
 					</Card.Content>
 				</Card>
-				{party.shoppingList ? (
+				{party.shoppingList && party.shoppingList.length > 0 ? (
 					<Card icon="cart">
 						<Card.Header>Liste de courses</Card.Header>
 						<Card.Content>
