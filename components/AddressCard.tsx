@@ -14,7 +14,7 @@ type Props = {
 const createStyles = (colors: { greyWhite: string; primary: string }) =>
 	StyleSheet.create({
 		modal: {
-			backgroundColor: 'transparent',
+			backgroundColor: colors.greyWhite,
 			flex: 1,
 			position: 'relative',
 			borderRadius: 10,
