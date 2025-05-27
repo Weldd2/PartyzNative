@@ -36,6 +36,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
+	  [
+        "expo-calendar",
+        {
+          "calendarPermission": "Cette application nécessite l'accès au calendrier"
+        }
+	  ],
       "expo-asset"
     ],
     "experiments": {

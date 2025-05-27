@@ -78,7 +78,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 		<ScrollView>
 			<View style={style.viewContainer}>
 				<View style={style.cardWrapper}>
-					<DateCard date={party.date} />
+					<DateCard party={party} />
 					<AddressCard address={party.address} />
 				</View>
 				<Card icon="person.2.fill">

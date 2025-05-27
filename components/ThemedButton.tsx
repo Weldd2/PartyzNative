@@ -17,6 +17,8 @@ const getVariantStyle = (colors: typeof Colors.light) => ({
 	primary: {
 		btn: {
 			backgroundColor: colors.primary,
+			borderColor: colors.primary,
+			borderWidth: 1,
 		},
 		textStyle: { color: colors.greyWhite },
 	},

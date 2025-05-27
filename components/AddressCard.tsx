@@ -17,8 +17,14 @@ const createStyles = (colors: { greyWhite: string; primary: string }) =>
 			backgroundColor: 'transparent',
 			flex: 1,
 			position: 'relative',
-			maxHeight: 600,
 			borderRadius: 10,
+			maxHeight: 600,
+		},
+		btnContainer: {
+			position: 'absolute',
+			bottom: 10,
+			paddingHorizontal: 15,
+			width: '100%',
 		},
 	});
 
@@ -46,11 +52,16 @@ export default function AddressCard({ address }: Props) {
 			<Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
 				<View style={style.modal}>
 					<MapScreen address={address} />
-					<ThemedButton
-						variant="secondary"
-						text="Fermer"
-						onPress={toggleModal}
-					/>
+
+					<View style={style.btnContainer}>
+						<View style={{ flex: 1 }}>
+							<ThemedButton
+								variant="secondary"
+								text="Fermer"
+								onPress={toggleModal}
+							/>
+						</View>
+					</View>
 				</View>
 			</Modal>
 		</>
