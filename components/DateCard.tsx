@@ -52,7 +52,7 @@ export default function DateCard({ party }: Props) {
 				calendriers[0];
 
 			const debut = new Date();
-			const fin = new Date();
+			const fin = new Date(party.date);
 			fin.setDate(fin.getDate() + 30); // Prochains 30 jours
 
 			const evenements = await Calendar.getEventsAsync(
