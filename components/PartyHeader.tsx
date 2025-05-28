@@ -4,7 +4,7 @@ import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	viewContainer: {
 		flex: 1,
 	},
@@ -24,7 +24,7 @@ export default function PartyHeader({ party }: Props) {
 	const colors = useThemeColors();
 
 	return (
-		<View style={style.header}>
+		<View style={styles.header}>
 			<View>
 				<IconSymbol
 					name="person.crop.circle"

@@ -28,7 +28,7 @@ export default function MapScreen({ address }: Props) {
 	const [loadingGeo, setLoadingGeo] = useState(true);
 	const [errorGeo, setErrorGeo] = useState<string | null>(null);
 	const colors = useThemeColors();
-	const style = createStyles(colors);
+	const styles = createStyles(colors);
 	const [webViewContent, setWebViewContent] = useState<string | null>(null);
 	const [assets] = useAssets([require('@/assets/leaflet.html')]);
 
@@ -55,7 +55,7 @@ export default function MapScreen({ address }: Props) {
 
 	if (loadingGeo || !webViewContent) {
 		return (
-			<View style={style.loadingContainer}>
+			<View style={styles.loadingContainer}>
 				<ActivityIndicator size="large" color={colors.primary} />
 				<ThemedText>Chargement de la carte…</ThemedText>
 			</View>
@@ -63,8 +63,8 @@ export default function MapScreen({ address }: Props) {
 	}
 
 	return (
-		<View style={style.container}>
-			<View style={style.mapContainer}>
+		<View style={styles.container}>
+			<View style={styles.mapContainer}>
 				<LeafletView
 					source={{ html: webViewContent }}
 					mapCenterPosition={position!}

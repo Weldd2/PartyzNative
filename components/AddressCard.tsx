@@ -30,7 +30,7 @@ const createStyles = (colors: { greyWhite: string; primary: string }) =>
 
 export default function AddressCard({ address }: Props) {
 	const colors = useThemeColors();
-	const style = createStyles(colors);
+	const styles = createStyles(colors);
 	const [isModalVisible, setModalVisible] = useState(false);
 
 	const toggleModal = () => {
@@ -50,10 +50,10 @@ export default function AddressCard({ address }: Props) {
 				</Card>
 			</Pressable>
 			<Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
-				<View style={style.modal}>
+				<View style={styles.modal}>
 					<MapScreen address={address} />
 
-					<View style={style.btnContainer}>
+					<View style={styles.btnContainer}>
 						<View style={{ flex: 1 }}>
 							<ThemedButton
 								variant="secondary"

@@ -29,7 +29,7 @@ type Props = {
 
 export default function DateCard({ party }: Props) {
 	const colors = useThemeColors();
-	const style = createStyles(colors);
+	const styles = createStyles(colors);
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [events, setEvents] = useState([]);
 	const dateObj = new Date(party.date);
@@ -141,12 +141,12 @@ export default function DateCard({ party }: Props) {
 			</Pressable>
 
 			<Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
-				<View style={style.modal}>
+				<View style={styles.modal}>
 					<ScreenCalendar
 						date={new Date(party.date)}
 						events={events}
 					/>
-					<View style={style.btnContainer}>
+					<View style={styles.btnContainer}>
 						<ThemedButton
 							onPress={() => createEvent(party)}
 							variant="primary"

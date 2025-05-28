@@ -5,7 +5,7 @@ import ThemedText from '@/components/ThemedText';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	homeContainer: {
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -30,14 +30,14 @@ export default function Home() {
 
 	return (
 		<>
-			<View style={style.homeContainer}>
-				<View style={style.logoContainer}>
+			<View style={styles.homeContainer}>
+				<View style={styles.logoContainer}>
 					<Logo variant="big" />
 					<ThemedText>
 						Facilite l&apos;organisation de vos soirées
 					</ThemedText>
 				</View>
-				<View style={style.btnContainer}>
+				<View style={styles.btnContainer}>
 					<ThemedButton
 						variant="secondary"
 						text="J'ai déjà un compte"
@@ -49,7 +49,7 @@ export default function Home() {
 						text="S'inscrire"
 					/>
 				</View>
-				<DanseurSvg style={style.danseur} />
+				<DanseurSvg style={styles.danseur} />
 			</View>
 		</>
 	);

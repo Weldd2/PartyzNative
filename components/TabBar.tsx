@@ -45,17 +45,17 @@ const createStyles = (colors: {
 
 export default function TabBar({ routes, index, onIndexChange }: TabBarProps) {
 	const colors = useThemeColors();
-	const style = createStyles(colors);
+	const styles = createStyles(colors);
 	return (
-		<View style={[style.navbar]}>
+		<View style={styles.navbar}>
 			{routes.map((route, i) => {
 				const isActive = index === i;
 				return (
 					<TouchableOpacity
 						key={route.key}
 						style={[
-							style.navItem,
-							isActive ? style.activeItem : '',
+							styles.navItem,
+							isActive ? styles.activeItem : '',
 						]}
 						onPress={() => onIndexChange(i)}
 					>

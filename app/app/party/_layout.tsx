@@ -20,7 +20,7 @@ import { SceneMap, TabView } from 'react-native-tab-view';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Party'>;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	loadingContainer: {
 		flex: 1,
 		justifyContent: 'center',
@@ -54,7 +54,7 @@ export default function PartyLayout({ route }: Props) {
 	if (isLoadingUser) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ActivityIndicator size="large" color={colors.primary} />
 					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
@@ -65,7 +65,7 @@ export default function PartyLayout({ route }: Props) {
 	if (errorUser || !user) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ThemedText>
 						Erreur lors du chargement de la partie
 					</ThemedText>

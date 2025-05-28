@@ -12,7 +12,7 @@ import {
 	View,
 } from 'react-native';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	viewContainer: {
 		paddingHorizontal: 15,
 		gap: 10,
@@ -42,7 +42,7 @@ export default function Parties() {
 	if (isLoadingUser || isLoadingParties || isLoadingPartiesAsOwner) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ActivityIndicator size="large" color={colors.primary} />
 					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
@@ -60,7 +60,7 @@ export default function Parties() {
 	) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ThemedText>
 						Erreur lors du chargement de la partie
 					</ThemedText>
@@ -72,7 +72,7 @@ export default function Parties() {
 	return (
 		<>
 			<SafeAreaView style={{ flex: 1 }}>
-				<View style={style.viewContainer}>
+				<View style={styles.viewContainer}>
 					<Header />
 					<ThemedText variant="headline2">Vos soirées</ThemedText>
 					<PartyList parties={partiesAsOwner} />

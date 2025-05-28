@@ -17,7 +17,7 @@ import {
 	View,
 } from 'react-native';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	loadingContainer: {
 		flex: 1,
 		justifyContent: 'center',
@@ -53,7 +53,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	if (isLoadingParty || isLoadingContributions) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ActivityIndicator size="large" color={colors.primary} />
 					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
@@ -64,7 +64,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	if (!party || !contributions || errorParty || errorContributions) {
 		return (
 			<SafeAreaView>
-				<View style={style.loadingContainer}>
+				<View style={styles.loadingContainer}>
 					<ThemedText>
 						Erreur lors du chargement de la partie
 					</ThemedText>
@@ -75,8 +75,8 @@ export default function PartyInformations({ partyId, userId }: Props) {
 
 	return (
 		<ScrollView>
-			<View style={style.viewContainer}>
-				<View style={style.cardWrapper}>
+			<View style={styles.viewContainer}>
+				<View style={styles.cardWrapper}>
 					<DateCard party={party} />
 					<AddressCard address={party.address} />
 				</View>
