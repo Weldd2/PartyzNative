@@ -16,9 +16,14 @@ export default function PartyList({ parties }: Props) {
 	const colors = useThemeColors();
 	const navigation = useNavigation<PartiesNavProp>();
 	const styles = createStyles(colors);
-	const futureParties = parties.filter(
-		(party) => party.date && new Date(party.date) > new Date()
-	);
+	const futureParties = parties
+		.filter((party) => party.date && new Date(party.date) > new Date())
+		.sort((a, b) => {
+			if (a.date && b.date) {
+				return new Date(a.date).getTime() - new Date(b.date).getTime();
+			}
+			return 0;
+		});
 	return (
 		<View>
 			<FlatList
@@ -40,7 +45,18 @@ export default function PartyList({ parties }: Props) {
 							<ThemedText style={{ flex: 1 }}>
 								{item.title}
 							</ThemedText>
-							<ThemedText>J - 8 🔥</ThemedText>
+							<ThemedText>
+								{(() => {
+									const daysLeft = Math.ceil(
+										(new Date(item.date).getTime() -
+											new Date().getTime()) /
+											(1000 * 60 * 60 * 24)
+									);
+									return `J-${daysLeft} ${
+										daysLeft > 7 ? '⌛' : '🔥'
+									}`;
+								})()}
+							</ThemedText>
 						</View>
 						<View style={{ flex: 1, flexDirection: 'row' }}>
 							<ThemedText style={{ flex: 1 }}>
