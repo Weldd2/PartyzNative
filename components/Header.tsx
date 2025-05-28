@@ -1,10 +1,7 @@
 import { IconSymbol } from '@/components/Icon/IconSymbol';
 import Logo from '@/components/Logo';
-import { useBottomSheet } from '@/context/BottomSheetContext';
 import useThemeColors from '@/hooks/useThemeColors';
 import { Pressable, StyleSheet, View } from 'react-native';
-import PartiesMenuContent from './PartiesMenuContent';
-
 const styles = StyleSheet.create({
 	header: {
 		flexDirection: 'row',
@@ -15,12 +12,8 @@ const styles = StyleSheet.create({
 });
 
 export default function Header() {
-	const { openMenu } = useBottomSheet();
 	const colors = useThemeColors();
 
-	const handleOpenPartiesMenu = () => {
-		openMenu(<PartiesMenuContent />, ['30%']);
-	};
 	return (
 		<View style={styles.header}>
 			<View>
@@ -31,7 +24,7 @@ export default function Header() {
 				/>
 			</View>
 			<Logo />
-			<Pressable onPress={handleOpenPartiesMenu}>
+			<Pressable>
 				<IconSymbol
 					name="ellipsis.circle"
 					size={35}

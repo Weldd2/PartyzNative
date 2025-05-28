@@ -1,7 +1,5 @@
 import { IconSymbol } from '@/components/Icon/IconSymbol';
-import PartyMenuContent from '@/components/PartyMenuContent';
 import ThemedText from '@/components/ThemedText';
-import { useBottomSheet } from '@/context/BottomSheetContext';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -24,11 +22,6 @@ type Props = {
 
 export default function PartyHeader({ party }: Props) {
 	const colors = useThemeColors();
-	const { openMenu } = useBottomSheet();
-
-	const handleOpenPartyMenu = () => {
-		openMenu(<PartyMenuContent party={party} />, ['30%']);
-	};
 
 	return (
 		<View style={style.header}>
@@ -42,7 +35,7 @@ export default function PartyHeader({ party }: Props) {
 			<ThemedText variant="headline1" style={{ marginBottom: 0 }}>
 				{party.title}
 			</ThemedText>
-			<Pressable onPress={handleOpenPartyMenu}>
+			<Pressable>
 				<IconSymbol
 					name="ellipsis.circle"
 					size={35}
