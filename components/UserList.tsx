@@ -19,7 +19,6 @@ export default function UserList({ owner, members }: Props) {
 
 	const listHeight = Math.min(count, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
 
-	console.log([owner, ...members]);
 	return (
 		<View style={[styles.container, { borderColor: colors.greyDark02 }]}>
 			<FlatList

@@ -40,6 +40,7 @@ export default function PartyLayout({ route }: Props) {
 	const layout = useWindowDimensions();
 
 	const [index, setIndex] = React.useState(0);
+
 	const [routes] = React.useState([
 		{
 			key: 'informations',

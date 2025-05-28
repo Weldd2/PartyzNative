@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@gorhom/bottom-sheet": "^5.1.5",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.9",
@@ -21,7 +22,9 @@
     "expo": "~53.0.9",
     "expo-asset": "~11.1.5",
     "expo-blur": "~14.1.4",
+    "expo-calendar": "~14.1.4",
     "expo-constants": "~17.1.6",
+    "expo-contacts": "~14.2.4",
     "expo-file-system": "~18.1.10",
     "expo-font": "~13.3.1",
     "expo-haptics": "~14.1.4",
@@ -40,6 +43,7 @@
     "react-native-calendars": "^1.1312.1",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-leaflet-view": "^1.1.1",
+    "react-native-material-menu": "^2.0.0",
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
@@ -47,8 +51,7 @@
     "react-native-svg": "15.11.2",
     "react-native-tab-view": "^4.1.0",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5",
-    "expo-calendar": "~14.1.4"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
