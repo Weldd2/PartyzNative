@@ -1,7 +1,6 @@
 import AddressCard from '@/components/AddressCard';
 import { Card } from '@/components/Card/Card';
 import DateCard from '@/components/DateCard';
-import MapScreen from '@/components/Map';
 import ShoppingList from '@/components/ShoppingList';
 import ThemedText from '@/components/ThemedText';
 import UserList from '@/components/UserList';
@@ -130,7 +129,6 @@ export default function PartyInformations({ partyId, userId }: Props) {
 				) : (
 					<></>
 				)}
-				<MapScreen address={party.address} />
 			</View>
 		</ScrollView>
 	);
