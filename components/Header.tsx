@@ -1,4 +1,4 @@
-import { IconSymbol } from '@/components/IconSymbol';
+import { IconSymbol } from '@/components/Icon/IconSymbol';
 import Logo from '@/components/Logo';
 import { useBottomSheet } from '@/context/BottomSheetContext';
 import useThemeColors from '@/hooks/useThemeColors';

@@ -1,4 +1,4 @@
-import { IconSymbol } from '@/components/IconSymbol';
+import { IconSymbol } from '@/components/Icon/IconSymbol';
 import PartyMenuContent from '@/components/PartyMenuContent';
 import ThemedText from '@/components/ThemedText';
 import { useBottomSheet } from '@/context/BottomSheetContext';

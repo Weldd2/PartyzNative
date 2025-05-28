@@ -2,7 +2,7 @@
 
 import useThemeColors from '@/hooks/useThemeColors';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
+import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import React from 'react';
 import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
 
@@ -37,8 +37,8 @@ export function IconSymbol({
 	size = 24,
 	color,
 	style,
-	// weight, // Removed as it is unused
-}: {
+}: // weight, // Removed as it is unused
+{
 	name: IconSymbolName;
 	size?: number;
 	color?: string | OpaqueColorValue;

@@ -1,4 +1,4 @@
-import { IconSymbol } from '@/components/IconSymbol';
+import { IconSymbol } from '@/components/Icon/IconSymbol';
 import useThemeColors from '@/hooks/useThemeColors';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';

@@ -2,7 +2,7 @@ import useThemeColors from '@/hooks/useThemeColors';
 import useThemeShadows from '@/hooks/useThemeShadows';
 import React from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
-import { IconSymbol, IconSymbolName } from '../IconSymbol';
+import { IconSymbol, IconSymbolName } from '../Icon/IconSymbol';
 import { CardContent, CardHeader } from './MainCard';
 import { CardSubContent, CardSubHeader } from './SubCard';
 
