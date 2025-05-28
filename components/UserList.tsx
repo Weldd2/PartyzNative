@@ -1,9 +1,9 @@
+import { IconSymbol } from '@/components/Icon/IconSymbol';
 import ThemedText from '@/components/ThemedText';
 import useThemeColors from '@/hooks/useThemeColors';
 import { UserType } from '@/types/UserType';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { IconSymbol } from './Icon/IconSymbol';
 
 type Props = {
 	owner: UserType;
