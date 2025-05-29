@@ -1,18 +1,21 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { useFonts } from 'expo-font';
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import AppLayout from '@/app/app/_layout';
 import PartyLayout from '@/app/app/party/_layout';
 import AuthLayout from '@/app/auth/_layout';
+import BottomSheetProvider from '@/context/BottomSheetContext';
 import UserContext from '@/context/userContext';
 import { queryClient } from '@/hooks/queryClient';
 import { useApi } from '@/hooks/useApi';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { UserType } from '@/types/UserType';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { useFonts } from 'expo-font';
-import * as React from 'react';
-import { ActivityIndicator, View } from 'react-native';
 
 export type RootStackParamList = {
 	Auth: undefined;
@@ -26,7 +29,7 @@ function AppNavigator() {
 	const [user, isLoading, error] = useApi<UserType>('/users/1');
 	const colors = useThemeColors();
 
-	// Si l'utilisateur n'est pas chargé et qu'il n'y a pas d'erreur, afficher Auth
+	// Si pas loggué et pas d'erreur, afficher la stack Auth
 	if (!user && !isLoading && !error) {
 		return (
 			<RootStack.Navigator screenOptions={{ headerShown: false }}>
@@ -35,7 +38,7 @@ function AppNavigator() {
 		);
 	}
 
-	// Si chargement en cours
+	// Si on charge l'utilisateur
 	if (isLoading) {
 		return (
 			<View
@@ -49,24 +52,31 @@ function AppNavigator() {
 			</View>
 		);
 	}
-	// Si utilisateur chargé, fournir le contexte
+
+	// Sinon, on fournit les contextes et la navigation « réelle »
 	return (
-		<UserContext.Provider value={{ user, isLoading, error }}>
-			<RootStack.Navigator screenOptions={{ headerShown: false }}>
-				<RootStack.Screen name="App" component={AppLayout} />
-				<RootStack.Screen name="Party" component={PartyLayout} />
-			</RootStack.Navigator>
-		</UserContext.Provider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<BottomSheetProvider>
+				<UserContext.Provider value={{ user, isLoading, error }}>
+					<RootStack.Navigator screenOptions={{ headerShown: false }}>
+						<RootStack.Screen name="App" component={AppLayout} />
+						<RootStack.Screen
+							name="Party"
+							component={PartyLayout}
+						/>
+					</RootStack.Navigator>
+				</UserContext.Provider>
+			</BottomSheetProvider>
+		</GestureHandlerRootView>
 	);
 }
 
 export default function App() {
-	const [loaded] = useFonts({
+	const [fontsLoaded] = useFonts({
 		HossRound: require('@/assets/fonts/Hoss Round-Medium.otf'),
 		HossRoundBlack: require('@/assets/fonts/Hoss Round-Black.otf'),
 	});
-
-	if (!loaded) return null;
+	if (!fontsLoaded) return null;
 
 	return (
 		<QueryClientProvider client={queryClient}>
