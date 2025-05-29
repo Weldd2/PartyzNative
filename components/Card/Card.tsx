@@ -1,15 +1,13 @@
 import { CardContent, CardHeader } from '@/components/Card/MainCard';
 import { CardSubContent, CardSubHeader } from '@/components/Card/SubCard';
 import { IconSymbol, IconSymbolName } from '@/components/Icon/IconSymbol';
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import useThemeShadows from '@/hooks/useThemeShadows';
 import React from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 
-const createStyles = (
-	variant: string,
-	colors: { primary: string; white: string }
-) =>
+const createStyles = (variant: string, colors: ColorsType) =>
 	StyleSheet.create({
 		card: {
 			marginTop: 30,

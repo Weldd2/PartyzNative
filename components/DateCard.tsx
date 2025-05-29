@@ -2,6 +2,7 @@ import ScreenCalendar from '@/components/Calendar';
 import { Card } from '@/components/Card/Card';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import * as Calendar from 'expo-calendar';
@@ -9,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
-const createStyles = (colors: { greyWhite: string; primary: string }) =>
+const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		modal: {
 			backgroundColor: colors.greyWhite,

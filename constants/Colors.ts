@@ -1,3 +1,5 @@
+export type ColorsType = typeof Colors.light;
+
 export const Colors = {
 	light: {
 		primary: '#193C31',

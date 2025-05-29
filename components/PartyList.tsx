@@ -1,5 +1,6 @@
 import { RootStackParamList } from '@/App';
 import ThemedText from '@/components/ThemedText';
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { useNavigation } from '@react-navigation/native';
@@ -81,13 +82,7 @@ export default function PartyList({ parties }: Props) {
 	);
 }
 
-const createStyles = (colors: {
-	white: string;
-	primary: string;
-	third: string;
-	greyDark02: string;
-	greyWhite: string;
-}) =>
+const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		list: {
 			paddingBottom: 20,

@@ -1,6 +1,7 @@
 import { Card } from '@/components/Card/Card';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -11,7 +12,7 @@ type Props = {
 	address: string;
 };
 
-const createStyles = (colors: { greyWhite: string; primary: string }) =>
+const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		modal: {
 			backgroundColor: colors.greyWhite,

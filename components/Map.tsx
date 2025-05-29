@@ -1,3 +1,4 @@
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { useAssets } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
@@ -84,13 +85,7 @@ export default function MapScreen({ address }: Props) {
 	);
 }
 
-const createStyles = (colors: {
-	white: string;
-	primary: string;
-	third: string;
-	greyDark02: string;
-	greyWhite: string;
-}) =>
+const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,

@@ -1,3 +1,4 @@
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -12,7 +13,7 @@ type CardContentProps = {
 	children: React.ReactNode;
 };
 
-const createStyles = (colors: { white: string }) =>
+const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		headerContainer: {},
 	});
