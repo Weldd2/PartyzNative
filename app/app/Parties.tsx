@@ -8,6 +8,7 @@ import { PartyType } from '@/types/PartyType';
 import {
 	ActivityIndicator,
 	SafeAreaView,
+	ScrollView,
 	StyleSheet,
 	View,
 } from 'react-native';
@@ -74,10 +75,14 @@ export default function Parties() {
 			<SafeAreaView style={{ flex: 1 }}>
 				<View style={styles.viewContainer}>
 					<Header />
-					<ThemedText variant="headline2">Vos soirées</ThemedText>
-					<PartyList parties={partiesAsOwner} />
-					<ThemedText variant="headline2">Soirées à venir</ThemedText>
-					<PartyList parties={parties} />
+					<ScrollView>
+						<ThemedText variant="headline2">Vos soirées</ThemedText>
+						<PartyList parties={partiesAsOwner} />
+						<ThemedText variant="headline2">
+							Soirées à venir
+						</ThemedText>
+						<PartyList parties={parties} />
+					</ScrollView>
 				</View>
 			</SafeAreaView>
 		</>

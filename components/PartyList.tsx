@@ -31,7 +31,7 @@ export default function PartyList({ parties }: Props) {
 				style={styles.list}
 				data={futureParties}
 				contentInset={{ bottom: futureParties.length * 13 }}
-				scrollEnabled={true}
+				scrollEnabled={false}
 				ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
 				renderItem={({ item }) => (
 					<Pressable
