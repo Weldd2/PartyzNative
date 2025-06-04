@@ -1,7 +1,10 @@
 import AddressCard from '@/components/AddressCard';
 import { Card } from '@/components/Card/Card';
+import { ThemedModal } from '@/components/CustomModal/CustomModal';
 import DateCard from '@/components/DateCard';
 import ShoppingList from '@/components/ShoppingList';
+import ShoppingListEdit from '@/components/ShoppingListEdit';
+import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import UserList from '@/components/UserList';
 import { useApi } from '@/hooks/useApi';
@@ -49,7 +52,6 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	const [contributions, isLoadingContributions, errorContributions] = useApi<
 		ShoppingListContribution[]
 	>(`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`);
-
 	if (isLoadingParty || isLoadingContributions) {
 		return (
 			<SafeAreaView>
@@ -106,7 +108,9 @@ export default function PartyInformations({ partyId, userId }: Props) {
 										}
 										renderItem={({ item }) => (
 											<View
-												style={{ flexDirection: 'row' }}
+												style={{
+													flexDirection: 'row',
+												}}
 											>
 												<ThemedText
 													variant="body3"
@@ -125,6 +129,14 @@ export default function PartyInformations({ partyId, userId }: Props) {
 						) : (
 							<></>
 						)}
+						<ThemedModal>
+							<ThemedModal.Button>
+								<ThemedButton text="Modifier" />
+							</ThemedModal.Button>
+							<ThemedModal.Modal variant="fullPage">
+								<ShoppingListEdit data={party.shoppingList} />
+							</ThemedModal.Modal>
+						</ThemedModal>
 					</Card>
 				) : (
 					<></>
