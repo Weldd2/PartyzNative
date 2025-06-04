@@ -7,10 +7,12 @@ const styles = StyleSheet.create({
 	btn: {
 		alignItems: 'center',
 		paddingVertical: 8,
+		paddingHorizontal: 10,
 		marginTop: 5,
 		borderRadius: 10,
 		alignSelf: 'stretch',
 	},
+	disabled: { opacity: 0.8 },
 });
 
 const getVariantStyle = (colors: typeof Colors.light) => ({
@@ -45,20 +47,30 @@ type Props = React.ComponentProps<typeof Pressable> & {
 	color?: keyof typeof Colors.light;
 	onPress?: Function;
 	text: string;
+	disabled?: boolean;
 };
 
 export default function ThemedButton({
 	text,
 	onPress,
 	variant = 'primary',
+	disabled = false,
+	...rest
 }: Props) {
 	const colors = useThemeColors();
 	const variantStyles = getVariantStyle(colors);
 
 	return (
 		<Pressable
-			style={[styles.btn, variantStyles[variant].btn]}
-			onPress={onPress}
+			{...rest}
+			style={[
+				styles.btn,
+				disabled ? styles.disabled : undefined,
+				variantStyles[variant].btn,
+				rest.style,
+			]}
+			onPress={disabled ? undefined : onPress}
+			disabled={disabled}
 		>
 			<ThemedText style={[variantStyles[variant].textStyle]}>
 				{text}
