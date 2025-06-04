@@ -1,12 +1,11 @@
-import React, { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-
+import ThemedBottomSheet from '@/components/BottomSheet/ThemedBottomSheet';
 import { IconSymbol } from '@/components/Icon/IconSymbol';
 import Logo from '@/components/Logo';
+import ThemedButton from '@/components/ThemedButton';
 import { ColorsType } from '@/constants/Colors';
-import { useBottomSheetContext } from '@/context/BottomSheetContext';
 import useThemeColors from '@/hooks/useThemeColors';
-import ThemedButton from './ThemedButton';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 const createStyle = (colors: ColorsType) =>
 	StyleSheet.create({
@@ -16,26 +15,26 @@ const createStyle = (colors: ColorsType) =>
 			alignItems: 'center',
 			paddingHorizontal: 15,
 		},
-		bottomSheet: {},
 	});
 
 export default function Header() {
 	const colors = useThemeColors();
-	const [isOpen, setIsOpen] = useState(false);
 	const styles = createStyle(colors);
-	const { open, close } = useBottomSheetContext();
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const handleMenuPress = useCallback(() => {
-		open(
-			<View style={styles.bottomSheet}>
-				<ThemedButton text="Nouvelle Partyz" />
+	const toggleModal = () => {
+		setIsOpen(!isOpen);
+	};
+
+	const setContent = () => {
+		return (
+			<View>
+				<ThemedButton text="Nouvelle Party" />
+				<ThemedButton text="Supprimer Party" />
+				<ThemedButton text="Modifier Party" />
 			</View>
 		);
-		if (isOpen) {
-			close();
-		}
-		setIsOpen((prev) => !prev);
-	}, [styles, open, close, isOpen]);
+	};
 
 	return (
 		<View style={styles.header}>
@@ -45,13 +44,18 @@ export default function Header() {
 				color={colors.primary}
 			/>
 			<Logo />
-			<Pressable onPress={handleMenuPress}>
+			<Pressable onPress={toggleModal}>
 				<IconSymbol
 					name="ellipsis.circle"
 					size={35}
 					color={colors.primary}
 				/>
 			</Pressable>
+			<ThemedBottomSheet
+				toggleModal={toggleModal}
+				content={setContent()}
+				isOpen={isOpen}
+			/>
 		</View>
 	);
 }

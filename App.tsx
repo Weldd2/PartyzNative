@@ -1,3 +1,12 @@
+import AppLayout from '@/app/app/_layout';
+import PartyLayout from '@/app/app/party/_layout';
+import AuthLayout from '@/app/auth/_layout';
+import UserContext from '@/context/userContext';
+import { queryClient } from '@/hooks/queryClient';
+import { useApi } from '@/hooks/useApi';
+import useThemeColors from '@/hooks/useThemeColors';
+import { PartyType } from '@/types/PartyType';
+import { UserType } from '@/types/UserType';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -5,17 +14,6 @@ import { useFonts } from 'expo-font';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-import AppLayout from '@/app/app/_layout';
-import PartyLayout from '@/app/app/party/_layout';
-import AuthLayout from '@/app/auth/_layout';
-import BottomSheetProvider from '@/context/BottomSheetContext';
-import UserContext from '@/context/userContext';
-import { queryClient } from '@/hooks/queryClient';
-import { useApi } from '@/hooks/useApi';
-import useThemeColors from '@/hooks/useThemeColors';
-import { PartyType } from '@/types/PartyType';
-import { UserType } from '@/types/UserType';
 
 export type RootStackParamList = {
 	Auth: undefined;
@@ -56,17 +54,12 @@ function AppNavigator() {
 	// Sinon, on fournit les contextes et la navigation « réelle »
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
-			<BottomSheetProvider>
-				<UserContext.Provider value={{ user, isLoading, error }}>
-					<RootStack.Navigator screenOptions={{ headerShown: false }}>
-						<RootStack.Screen name="App" component={AppLayout} />
-						<RootStack.Screen
-							name="Party"
-							component={PartyLayout}
-						/>
-					</RootStack.Navigator>
-				</UserContext.Provider>
-			</BottomSheetProvider>
+			<UserContext.Provider value={{ user, isLoading, error }}>
+				<RootStack.Navigator screenOptions={{ headerShown: false }}>
+					<RootStack.Screen name="App" component={AppLayout} />
+					<RootStack.Screen name="Party" component={PartyLayout} />
+				</RootStack.Navigator>
+			</UserContext.Provider>
 		</GestureHandlerRootView>
 	);
 }

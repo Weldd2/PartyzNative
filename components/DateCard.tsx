@@ -6,7 +6,7 @@ import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import * as Calendar from 'expo-calendar';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -42,7 +42,7 @@ export default function DateCard({ party }: Props) {
 		setModalVisible(!isModalVisible);
 	};
 
-	const getEvents = async () => {
+	const getEvents = useCallback(async () => {
 		const { status } = await Calendar.requestCalendarPermissionsAsync();
 		if (status === 'granted') {
 			const calendriers = await Calendar.getCalendarsAsync(
@@ -66,46 +66,52 @@ export default function DateCard({ party }: Props) {
 			console.log('Permission refusée pour accéder au calendrier');
 			return [];
 		}
-	};
+	});
 
-	const createEvent = async (party: PartyType) => {
-		const { status } = await Calendar.requestCalendarPermissionsAsync();
-		if (status === 'granted') {
-			const calendriers = await Calendar.getCalendarsAsync(
-				Calendar.EntityTypes.EVENT
-			);
-			const calendrierDefaut =
-				calendriers.find((cal) => cal.isPrimary) || calendriers[0];
-
-			const evenement = {
-				title: party.title,
-				startDate: new Date(party.date),
-				endDate: new Date(
-					new Date(party.date).getTime() + 3 * 60 * 60 * 1000
-				),
-				timeZone: 'Europe/Paris',
-				location: party.address,
-			};
-
-			try {
-				const idEvenement = await Calendar.createEventAsync(
-					calendrierDefaut.id,
-					evenement
+	const createEvent = useCallback(
+		async (party: PartyType) => {
+			const { status } = await Calendar.requestCalendarPermissionsAsync();
+			if (status === 'granted') {
+				const calendriers = await Calendar.getCalendarsAsync(
+					Calendar.EntityTypes.EVENT
 				);
-				Alert.alert('Success', 'Évènement créé avec succès.', [
-					{
-						text: 'OK',
-						onPress: toggleModal,
-					},
-				]);
-				console.log("Événement créé avec l'ID :", idEvenement);
-			} catch (e) {
-				console.error("Erreur lors de la création de l'événement :", e);
+				const calendrierDefaut =
+					calendriers.find((cal) => cal.isPrimary) || calendriers[0];
+
+				const evenement = {
+					title: party.title,
+					startDate: new Date(party.date),
+					endDate: new Date(
+						new Date(party.date).getTime() + 3 * 60 * 60 * 1000
+					),
+					timeZone: 'Europe/Paris',
+					location: party.address,
+				};
+
+				try {
+					const idEvenement = await Calendar.createEventAsync(
+						calendrierDefaut.id,
+						evenement
+					);
+					Alert.alert('Success', 'Évènement créé avec succès.', [
+						{
+							text: 'OK',
+							onPress: toggleModal,
+						},
+					]);
+					console.log("Événement créé avec l'ID :", idEvenement);
+				} catch (e) {
+					console.error(
+						"Erreur lors de la création de l'événement :",
+						e
+					);
+				}
+			} else {
+				console.log('Permission refusée pour accéder au calendrier');
 			}
-		} else {
-			console.log('Permission refusée pour accéder au calendrier');
-		}
-	};
+		},
+		[toggleModal]
+	);
 
 	useEffect(() => {
 		const loadEvents = async () => {
@@ -116,7 +122,7 @@ export default function DateCard({ party }: Props) {
 		if (isModalVisible) {
 			loadEvents();
 		}
-	}, [isModalVisible]);
+	}, [getEvents, isModalVisible]);
 
 	const formattedDate = dateObj.toLocaleDateString('fr-FR', {
 		day: 'numeric',
