@@ -18,8 +18,7 @@ type Props = {
 export default function PartyChat({ party }: Props) {
 	return (
 		<View style={styles.container}>
-			<ThemedText variant="headline1">Chat</ThemedText>
-			<ThemedText>Chat pour la party: {party.title}</ThemedText>
+			<ThemedText variant="headline1">Chat is coming soon</ThemedText>
 		</View>
 	);
 }
