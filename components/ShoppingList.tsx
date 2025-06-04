@@ -11,6 +11,34 @@ type Props = {
 const ITEM_HEIGHT = 40;
 const MAX_VISIBLE_ITEMS = 7.5;
 
+const styles = StyleSheet.create({
+	container: {
+		borderRadius: 10,
+		borderWidth: 1,
+		overflow: 'hidden',
+	},
+	list: {
+		width: '100%',
+	},
+	listItem: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		height: ITEM_HEIGHT,
+		paddingHorizontal: 10,
+	},
+	profilePic: {
+		width: 30,
+		height: 30,
+		borderRadius: 15,
+		borderWidth: 1.5,
+		marginRight: 10,
+	},
+	text: {
+		flex: 1,
+	},
+});
+
 export default function ShoppingList({ items = [] }: Props) {
 	const colors = useThemeColors();
 	const listHeight = Math.min(items.length, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
@@ -43,31 +71,3 @@ export default function ShoppingList({ items = [] }: Props) {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		borderRadius: 10,
-		borderWidth: 1,
-		overflow: 'hidden',
-	},
-	list: {
-		width: '100%',
-	},
-	listItem: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 10,
-		height: ITEM_HEIGHT,
-		paddingHorizontal: 10,
-	},
-	profilePic: {
-		width: 30,
-		height: 30,
-		borderRadius: 15,
-		borderWidth: 1.5,
-		marginRight: 10,
-	},
-	text: {
-		flex: 1,
-	},
-});
