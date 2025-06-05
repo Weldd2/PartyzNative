@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingVertical: 8,
 		paddingHorizontal: 10,
-		marginTop: 5,
 		borderRadius: 10,
 		alignSelf: 'stretch',
 	},
@@ -46,12 +45,14 @@ type Props = React.ComponentProps<typeof Pressable> & {
 	variant?: keyof ReturnType<typeof getVariantStyle>;
 	color?: keyof typeof Colors.light;
 	onPress?: Function;
-	text: string;
+	text?: string;
+	children?: React.ReactNode;
 	disabled?: boolean;
 };
 
 export default function ThemedButton({
 	text,
+	children,
 	onPress,
 	variant = 'primary',
 	disabled = false,
@@ -72,9 +73,13 @@ export default function ThemedButton({
 			onPress={disabled ? undefined : onPress}
 			disabled={disabled}
 		>
-			<ThemedText style={[variantStyles[variant].textStyle]}>
-				{text}
-			</ThemedText>
+			{text ? (
+				<ThemedText style={[variantStyles[variant].textStyle]}>
+					{text}
+				</ThemedText>
+			) : (
+				children
+			)}
 		</Pressable>
 	);
 }

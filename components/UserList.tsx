@@ -1,9 +1,11 @@
 import { IconSymbol } from '@/components/Icon/IconSymbol';
 import ThemedText from '@/components/ThemedText';
+import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
 import { UserType } from '@/types/UserType';
-import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, FlatList, StyleSheet, View } from 'react-native';
+import ThemedButton from './ThemedButton';
 
 type Props = {
 	owner: UserType;
@@ -11,72 +13,128 @@ type Props = {
 };
 
 const ITEM_HEIGHT = 40;
-const MAX_VISIBLE_ITEMS = 6.5;
+const MAX_VISIBLE_ITEMS = 6;
+const MAX_ITEMS_BEFORE_BUTTON = 6;
 
 export default function UserList({ owner, members }: Props) {
 	const colors = useThemeColors();
+	const [isExpanded, setIsExpanded] = useState(false);
+	const animatedHeight = useRef(new Animated.Value(0)).current;
+	const styles = createStyles(colors);
 	const count = members.length + (owner ? 1 : 0);
+	const shouldShowButton = count > MAX_ITEMS_BEFORE_BUTTON;
+	const collapsedHeight = Math.min(count, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
+	const expandedHeight = count * ITEM_HEIGHT;
+	const targetHeight = isExpanded ? expandedHeight : collapsedHeight;
 
-	const listHeight = Math.min(count, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
+	useEffect(() => {
+		animatedHeight.setValue(collapsedHeight);
+	}, [animatedHeight, collapsedHeight]);
+
+	useEffect(() => {
+		Animated.timing(animatedHeight, {
+			toValue: targetHeight,
+			duration: 300,
+			useNativeDriver: false,
+		}).start();
+	}, [isExpanded, targetHeight, animatedHeight]);
+
+	const toggleExpanded = () => {
+		setIsExpanded(!isExpanded);
+	};
 
 	return (
-		<View style={[styles.container, { borderColor: colors.greyDark02 }]}>
-			<FlatList
-				data={[owner, ...members]}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={({ item }) => (
-					<View style={styles.listItem}>
-						<IconSymbol
-							name="person.crop.circle"
-							size={30}
-							color={
-								item.id === owner.id
-									? colors.success
-									: colors.primary
-							}
-						/>
-						<ThemedText variant="body3" style={styles.text}>
-							{item.firstname} {item.lastname.charAt(0)}.
-						</ThemedText>
-						<ThemedText>
-							{item.id === owner.id ? '👑' : ''}
-						</ThemedText>
-					</View>
-				)}
-				style={[styles.list, { height: listHeight }]}
-				scrollEnabled={members.length > MAX_VISIBLE_ITEMS}
-				showsVerticalScrollIndicator={
-					members.length > MAX_VISIBLE_ITEMS
-				}
-			/>
+		<View style={[styles.container]}>
+			<Animated.View style={{ height: animatedHeight }}>
+				<FlatList
+					data={[owner, ...members]}
+					scrollEnabled={false}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({ item }) => (
+						<View style={styles.listItem}>
+							<IconSymbol
+								name="person.crop.circle"
+								size={30}
+								color={
+									item.id === owner.id
+										? colors.success
+										: colors.primary
+								}
+							/>
+							<ThemedText variant="body3" style={styles.text}>
+								{item.firstname} {item.lastname.charAt(0)}.
+							</ThemedText>
+							<ThemedText>
+								{item.id === owner.id ? '👑' : ''}
+							</ThemedText>
+						</View>
+					)}
+					style={styles.list}
+				/>
+			</Animated.View>
+			{shouldShowButton && (
+				<ThemedButton
+					style={[styles.showMoreButton]}
+					onPress={toggleExpanded}
+					variant="secondary"
+				>
+					<ThemedText variant="body3" color="primary">
+						{isExpanded
+							? 'Voir moins'
+							: `Voir plus (${
+									count - MAX_ITEMS_BEFORE_BUTTON
+							  } autres)`}
+					</ThemedText>
+					<IconSymbol
+						name={isExpanded ? 'chevron.up' : 'chevron.down'}
+						size={20}
+						color={colors.primary}
+					/>
+				</ThemedButton>
+			)}
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		borderRadius: 10,
-		borderWidth: 1,
-		overflow: 'hidden',
-	},
-	list: {
-		width: '100%',
-	},
-	listItem: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 10,
-		height: ITEM_HEIGHT,
-		paddingHorizontal: 10,
-	},
-	profilePic: {
-		width: 30,
-		height: 30,
-		borderRadius: 15,
-		borderWidth: 1.5,
-		marginRight: 10,
-	},
-	text: {
-		flex: 1,
-	},
-});
+const createStyles = (colors: ColorsType) =>
+	StyleSheet.create({
+		container: {
+			borderRadius: 10,
+			borderWidth: 1,
+			overflow: 'hidden',
+			borderColor: colors.greyDark02,
+		},
+		list: {
+			width: '100%',
+		},
+		listItem: {
+			flexDirection: 'row',
+			alignItems: 'center',
+			gap: 10,
+			height: ITEM_HEIGHT,
+			paddingHorizontal: 10,
+		},
+		profilePic: {
+			width: 30,
+			height: 30,
+			borderRadius: 15,
+			borderWidth: 1.5,
+			marginRight: 10,
+		},
+		text: {
+			flex: 1,
+		},
+		showMoreButton: {
+			flexDirection: 'row',
+			justifyContent: 'center',
+			gap: 10,
+			borderWidth: 0,
+			borderTopWidth: 1,
+			borderTopColor: colors.greyDark02,
+			borderRadius: 0,
+		},
+		showMoreText: {
+			fontSize: 14,
+			fontWeight: '500',
+		},
+	});

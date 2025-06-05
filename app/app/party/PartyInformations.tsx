@@ -103,6 +103,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 								<Card.SubContent>
 									<FlatList
 										data={contributions}
+										scrollEnabled={false}
 										keyExtractor={(item) =>
 											item.id.toString()
 										}
@@ -131,7 +132,10 @@ export default function PartyInformations({ partyId, userId }: Props) {
 						)}
 						<ThemedModal>
 							<ThemedModal.Button>
-								<ThemedButton text="Modifier" />
+								<ThemedButton
+									text="Modifier"
+									style={{ marginTop: 10 }}
+								/>
 							</ThemedModal.Button>
 							<ThemedModal.Modal variant="fullPage">
 								<ShoppingListEdit data={party.shoppingList} />
