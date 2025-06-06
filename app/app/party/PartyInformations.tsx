@@ -11,9 +11,13 @@ import { useApi } from '@/hooks/useApi';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { ShoppingListContribution } from '@/types/ShoppingListContribution';
+import { ShoppingListItem } from '@/types/ShoppingListItem';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 import {
 	ActivityIndicator,
 	FlatList,
+	RefreshControl,
 	SafeAreaView,
 	ScrollView,
 	StyleSheet,
@@ -53,7 +57,42 @@ export default function PartyInformations({ partyId, userId }: Props) {
 		useApi<ShoppingListContribution[]>(
 			`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`
 		);
-	if (isLoadingParty || isLoadingContributions) {
+	const [
+		shoppingListItems,
+		isLoadingShoppingListItems,
+		errorShoppingListItems,
+	] = useApi<ShoppingListItem[]>(`/parties/${partyId}/shopping_list_items`);
+	const [refreshing, setRefreshing] = useState(false);
+	const queryClient = useQueryClient();
+
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		try {
+			// Invalide la cache pour la requête "party" et relance un refetch
+			await queryClient.invalidateQueries({
+				queryKey: [`/parties/${partyId}`],
+			});
+			await queryClient.invalidateQueries({
+				queryKey: [`/parties/${partyId}/shopping_list_items`],
+			});
+			// Invalide la cache pour la requête "contributions" et relance un refetch
+			await queryClient.invalidateQueries({
+				queryKey: [
+					`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`,
+				],
+			});
+		} catch (err) {
+			console.error('Erreur lors du rafraîchissement :', err);
+		} finally {
+			setRefreshing(false);
+		}
+	}, [queryClient, partyId, userId]);
+
+	if (
+		isLoadingParty ||
+		isLoadingContributions ||
+		isLoadingShoppingListItems
+	) {
 		return (
 			<SafeAreaView>
 				<View style={styles.loadingContainer}>
@@ -64,7 +103,14 @@ export default function PartyInformations({ partyId, userId }: Props) {
 		);
 	}
 
-	if (!party || !userContributions || errorParty || errorContributions) {
+	if (
+		!party ||
+		!userContributions ||
+		!shoppingListItems ||
+		errorParty ||
+		errorContributions ||
+		errorShoppingListItems
+	) {
 		return (
 			<SafeAreaView>
 				<View style={styles.loadingContainer}>
@@ -77,7 +123,18 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView
+			refreshControl={
+				<RefreshControl
+					refreshing={
+						refreshing || isLoadingParty || isLoadingContributions
+					}
+					onRefresh={onRefresh}
+					tintColor={colors.primary}
+					colors={[colors.primary]}
+				/>
+			}
+		>
 			<View style={styles.viewContainer}>
 				<View style={styles.cardWrapper}>
 					<DateCard party={party} />
@@ -92,12 +149,12 @@ export default function PartyInformations({ partyId, userId }: Props) {
 						<UserList owner={party.owner} members={party.members} />
 					</Card.Content>
 				</Card>
-				{party.shoppingList && party.shoppingList.length > 0 ? (
+				{shoppingListItems && shoppingListItems.length > 0 ? (
 					<Card icon="cart">
 						<Card.Header>Liste de courses</Card.Header>
 						<Card.Content>
 							<ShoppingList
-								items={party.shoppingList}
+								items={shoppingListItems}
 								userContributions={userContributions}
 							/>
 						</Card.Content>
@@ -132,7 +189,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 								</Card.SubContent>
 							</>
 						) : null}
-						<ThemedModal>
+						<ThemedModal onClose={onRefresh}>
 							<ThemedModal.Button>
 								<ThemedButton
 									text="Modifier"
@@ -140,7 +197,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 								/>
 							</ThemedModal.Button>
 							<ThemedModal.Modal variant="fullPage">
-								<ShoppingListEdit data={party.shoppingList} />
+								<ShoppingListEdit data={shoppingListItems} />
 							</ThemedModal.Modal>
 						</ThemedModal>
 					</Card>

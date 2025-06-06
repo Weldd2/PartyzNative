@@ -1,11 +1,19 @@
+import { IconSymbol } from '@/components/Icon/IconSymbol';
+import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import { createApiMutation } from '@/hooks/useApi';
 import useThemeColors from '@/hooks/useThemeColors';
 import { ShoppingListItem } from '@/types/ShoppingListItem';
-import { useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { IconSymbol } from './Icon/IconSymbol';
-import ThemedButton from './ThemedButton';
+import { useEffect, useRef, useState } from 'react';
+import {
+	Alert,
+	FlatList,
+	Pressable,
+	StyleSheet,
+	TextInput,
+	View,
+} from 'react-native';
 
 type Props = {
 	data: ShoppingListItem[];
@@ -71,17 +79,96 @@ export default function ShoppingListEdit({ data }: Props) {
 	const styles = createStyles(colors);
 	const [searchText, setSearchText] = useState('');
 	const [filteredData, setFilteredData] = useState(data);
+	const [localData, setLocalData] = useState(data);
+
+	// Référence pour stocker les timeouts de débouncement
+	const debouncedUpdates = useRef<{ [key: number]: NodeJS.Timeout }>({});
+	// État pour stocker les mises à jour en attente
+	const pendingUpdates = useRef<{ [key: number]: number }>({});
+
+	const updateItem = createApiMutation<
+		ShoppingListItem,
+		{ quantity: number }
+	>('PATCH');
+
+	const performApiUpdate = async (
+		item: ShoppingListItem,
+		quantity: number
+	) => {
+		try {
+			await updateItem(`/shopping_list_items/${item.id}`, {
+				quantity: quantity,
+			});
+			// Clean the waiting update after success
+			delete pendingUpdates.current[item.id];
+		} catch (error) {
+			console.error('Erreur lors de la mise à jour:', error);
+
+			// Rollback to previous quantity
+			const updatedData = localData.map((localItem) =>
+				localItem.id === item.id
+					? { ...localItem, quantity: item.quantity }
+					: localItem
+			);
+
+			setLocalData(updatedData);
+
+			delete pendingUpdates.current[item.id];
+			Alert.alert('Erreur', 'Impossible de mettre à jour la quantité');
+		}
+	};
+
+	// debounce
+	const updateItemQuantity = (
+		item: ShoppingListItem,
+		newQuantity: number
+	) => {
+		if (newQuantity < 0) return;
+
+		// Optimistic update
+		const updatedData = localData.map((localItem) =>
+			localItem.id === item.id
+				? { ...localItem, quantity: newQuantity }
+				: localItem
+		);
+
+		setLocalData(updatedData);
+		pendingUpdates.current[item.id] = newQuantity;
+		if (debouncedUpdates.current[item.id]) {
+			clearTimeout(debouncedUpdates.current[item.id]);
+		}
+		debouncedUpdates.current[item.id] = setTimeout(() => {
+			const finalQuantity = pendingUpdates.current[item.id];
+			if (finalQuantity !== undefined) {
+				performApiUpdate(item, finalQuantity);
+			}
+			delete debouncedUpdates.current[item.id];
+		}, 1000);
+	};
+
+	// Clear timeouts when component unmounts
+	useEffect(() => {
+		return () => {
+			Object.values(debouncedUpdates.current).forEach((timeout) => {
+				clearTimeout(timeout);
+			});
+		};
+	}, []);
+
+	useEffect(() => {
+		setLocalData(data);
+	}, [data]);
 
 	useEffect(() => {
 		if (searchText.trim() === '') {
-			setFilteredData(data);
+			setFilteredData(localData);
 		} else {
-			const filtered = data.filter((item) =>
+			const filtered = localData.filter((item) =>
 				item.name.toLowerCase().includes(searchText.toLowerCase())
 			);
 			setFilteredData(filtered);
 		}
-	}, [searchText, data]);
+	}, [searchText, localData]);
 
 	return (
 		<View style={styles.container}>
@@ -105,43 +192,55 @@ export default function ShoppingListEdit({ data }: Props) {
 					<FlatList
 						data={filteredData}
 						keyExtractor={(item) => item.id.toString()}
-						renderItem={({ item }) => (
-							<View style={styles.listItem}>
-								<ThemedText
-									variant="body3"
-									style={styles.listItemText}
-								>
-									{item.name}
-								</ThemedText>
-								<Pressable
-									onPress={() => {
-										console.log('- 1');
-									}}
-								>
-									<IconSymbol
-										name={
-											item.quantity > 1
-												? 'minus.circle'
-												: 'multiply.circle'
-										}
-										color={colors.error}
-										size={25}
-									/>
-								</Pressable>
-								<ThemedText>{item.quantity}</ThemedText>
-								<Pressable
-									onPress={() => {
-										console.log('+ 1');
-									}}
-								>
-									<IconSymbol
-										name="plus.circle"
-										color={colors.success}
-										size={25}
-									/>
-								</Pressable>
-							</View>
-						)}
+						renderItem={({ item }) => {
+							return (
+								<View style={styles.listItem}>
+									<ThemedText
+										variant="body3"
+										style={styles.listItemText}
+									>
+										{item.name}
+									</ThemedText>
+									<Pressable
+										onPress={() => {
+											const newQuantity =
+												item.quantity > 1
+													? item.quantity - 1
+													: 0;
+											updateItemQuantity(
+												item,
+												newQuantity
+											);
+										}}
+									>
+										<IconSymbol
+											name={
+												item.quantity > 1
+													? 'minus.circle'
+													: 'multiply.circle'
+											}
+											color={colors.error}
+											size={25}
+										/>
+									</Pressable>
+									<ThemedText>{item.quantity}</ThemedText>
+									<Pressable
+										onPress={() => {
+											updateItemQuantity(
+												item,
+												item.quantity + 1
+											);
+										}}
+									>
+										<IconSymbol
+											name="plus.circle"
+											color={colors.success}
+											size={25}
+										/>
+									</Pressable>
+								</View>
+							);
+						}}
 						style={[styles.list]}
 					/>
 				</View>
