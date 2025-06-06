@@ -82,7 +82,7 @@ export default function UserList({ owner, members }: Props) {
 						{isExpanded
 							? 'Voir moins'
 							: `Voir plus (${
-									count - MAX_ITEMS_BEFORE_BUTTON
+									count - 1 - MAX_ITEMS_BEFORE_BUTTON
 							  } autres)`}
 					</ThemedText>
 					<IconSymbol
