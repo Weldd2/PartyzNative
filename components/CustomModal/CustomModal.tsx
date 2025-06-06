@@ -6,6 +6,7 @@ import Modal from 'react-native-modal';
 
 type ModalRootProps = {
 	children: React.ReactNode;
+	onClose?: () => void;
 };
 
 type ModalContextType = {
@@ -18,10 +19,13 @@ const ModalContext = React.createContext<ModalContextType>({
 	isOpen: false,
 });
 
-function ModalRoot({ children }: ModalRootProps) {
+function ModalRoot({ children, onClose }: ModalRootProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const toggleModal = () => {
+		if (isOpen && onClose) {
+			onClose();
+		}
 		setIsOpen(!isOpen);
 	};
 
@@ -107,6 +111,7 @@ function ModalContent({
 		<Modal
 			isVisible={isOpen}
 			onBackdropPress={toggleModal}
+			onBackButtonPress={toggleModal}
 			style={[
 				variantStyles[variant].modalContainer,
 				styles.modalContainer,
