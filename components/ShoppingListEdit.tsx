@@ -11,23 +11,22 @@ type Props = {
 	data: ShoppingListItem[];
 };
 
-const styles = StyleSheet.create({});
-
 const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		container: {
 			paddingHorizontal: 15,
 			paddingTop: 15,
+			gap: 20,
 			flex: 1,
 		},
 		listContainer: {
 			borderRadius: 10,
 			borderWidth: 1,
 			overflow: 'hidden',
-			marginTop: 20,
+			borderColor: colors.greyDark02,
 		},
 		list: {
-			width: '100%',
+			// flex: 1,
 		},
 		listItem: {
 			flexDirection: 'row',
@@ -41,22 +40,29 @@ const createStyles = (colors: ColorsType) =>
 		},
 		textInputContainer: {
 			flexDirection: 'row',
-			paddingLeft: 14,
-			backgroundColor: colors.white,
-			borderRadius: 10,
-			borderWidth: 1,
-			borderColor: colors.greyDark02,
 		},
 		textInput: {
+			borderRadius: 10,
+			borderTopRightRadius: 0,
+			borderBottomRightRadius: 0,
 			flex: 1,
+			paddingLeft: 14,
+			backgroundColor: colors.white,
 			fontSize: 18,
 			fontFamily: 'HossRound',
 			color: colors.greyDark,
+			borderWidth: 1,
+			borderRightWidth: 0,
+			borderColor: colors.greyDark02,
 		},
 		addBtn: {
 			marginTop: 0,
 			margin: 0,
 			padding: 0,
+			borderTopLeftRadius: 0,
+			borderBottomLeftRadius: 0,
+			borderWidth: 1,
+			borderColor: colors.greyDark02,
 		},
 	});
 
@@ -82,7 +88,6 @@ export default function ShoppingListEdit({ data }: Props) {
 			<ThemedText variant="headline1">Liste de course</ThemedText>
 			<View style={styles.textInputContainer}>
 				<TextInput
-					autoFocus={true}
 					placeholderTextColor={colors.greyDark02}
 					placeholder="Ajouter un nouvel article"
 					style={styles.textInput}
@@ -95,51 +100,55 @@ export default function ShoppingListEdit({ data }: Props) {
 					style={styles.addBtn}
 				/>
 			</View>
-			<View
-				style={[
-					styles.listContainer,
-					{ borderColor: colors.greyDark02 },
-				]}
-			>
-				<FlatList
-					data={filteredData}
-					scrollEnabled={false}
-					keyExtractor={(item) => item.id.toString()}
-					renderItem={({ item }) => (
-						<View style={styles.listItem}>
-							<ThemedText
-								variant="body3"
-								style={styles.listItemText}
-							>
-								{item.name}
-							</ThemedText>
-							<Pressable
-								onPress={() => {
-									console.log('- 1');
-								}}
-							>
-								<IconSymbol
-									name="minus.circle"
-									color={colors.error}
-									size={25}
-								/>
-							</Pressable>
-							<ThemedText>{item.quantity}</ThemedText>
-							<Pressable
-								onPress={() => {
-									console.log('+ 1');
-								}}
-							>
-								<IconSymbol
-									name="plus.circle"
-									color={colors.success}
-									size={25}
-								/>
-							</Pressable>
-						</View>
-					)}
-					style={[styles.list]}
-				/>
+			{filteredData.length ? (
+				<View style={[styles.listContainer, { flex: 1 }]}>
+					<FlatList
+						data={filteredData}
+						keyExtractor={(item) => item.id.toString()}
+						renderItem={({ item }) => (
+							<View style={styles.listItem}>
+								<ThemedText
+									variant="body3"
+									style={styles.listItemText}
+								>
+									{item.name}
+								</ThemedText>
+								<Pressable
+									onPress={() => {
+										console.log('- 1');
+									}}
+								>
+									<IconSymbol
+										name="minus.circle"
+										color={colors.error}
+										size={25}
+									/>
+								</Pressable>
+								<ThemedText>{item.quantity}</ThemedText>
+								<Pressable
+									onPress={() => {
+										console.log('+ 1');
+									}}
+								>
+									<IconSymbol
+										name="plus.circle"
+										color={colors.success}
+										size={25}
+									/>
+								</Pressable>
+							</View>
+						)}
+						style={[styles.list]}
+					/>
+				</View>
+			) : (
+				<></>
+			)}
+			<View style={{ marginBottom: 40 }}>
+				<ThemedText color="greyLight">
+					Fin de la liste... Si vous ne trouvez pas ce que vous
+					voulez, vous pouvez ajouter un nouvel article.
+				</ThemedText>
 			</View>
 		</View>
 	);
