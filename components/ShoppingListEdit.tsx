@@ -119,7 +119,11 @@ export default function ShoppingListEdit({ data }: Props) {
 									}}
 								>
 									<IconSymbol
-										name="minus.circle"
+										name={
+											item.quantity > 1
+												? 'minus.circle'
+												: 'multiply.circle'
+										}
 										color={colors.error}
 										size={25}
 									/>
@@ -141,9 +145,7 @@ export default function ShoppingListEdit({ data }: Props) {
 						style={[styles.list]}
 					/>
 				</View>
-			) : (
-				<></>
-			)}
+			) : null}
 			<View style={{ marginBottom: 40 }}>
 				<ThemedText color="greyLight">
 					Fin de la liste... Si vous ne trouvez pas ce que vous

@@ -71,20 +71,16 @@ export default function Parties() {
 	}
 
 	return (
-		<>
-			<SafeAreaView style={{ flex: 1 }}>
-				<View style={styles.viewContainer}>
-					<Header />
-					<ScrollView>
-						<ThemedText variant="headline2">Vos soirées</ThemedText>
-						<PartyList parties={partiesAsOwner} />
-						<ThemedText variant="headline2">
-							Soirées à venir
-						</ThemedText>
-						<PartyList parties={parties} />
-					</ScrollView>
-				</View>
-			</SafeAreaView>
-		</>
+		<SafeAreaView style={{ flex: 1 }}>
+			<View style={styles.viewContainer}>
+				<Header />
+				<ScrollView>
+					<ThemedText variant="headline2">Vos soirées</ThemedText>
+					<PartyList parties={partiesAsOwner} />
+					<ThemedText variant="headline2">Soirées à venir</ThemedText>
+					<PartyList parties={parties} />
+				</ScrollView>
+			</View>
+		</SafeAreaView>
 	);
 }
