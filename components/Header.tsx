@@ -23,7 +23,7 @@ export default function Header() {
 
 	const setContent = () => {
 		return (
-			<View>
+			<View style={{ gap: 5 }}>
 				<ThemedButton text="Nouvelle Party" />
 				<ThemedButton text="Supprimer Party" />
 				<ThemedButton text="Modifier Party" />
