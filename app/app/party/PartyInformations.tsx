@@ -49,9 +49,10 @@ export default function PartyInformations({ partyId, userId }: Props) {
 	const [party, isLoadingParty, errorParty] = useApi<PartyType>(
 		`/parties/${partyId}`
 	);
-	const [contributions, isLoadingContributions, errorContributions] = useApi<
-		ShoppingListContribution[]
-	>(`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`);
+	const [userContributions, isLoadingContributions, errorContributions] =
+		useApi<ShoppingListContribution[]>(
+			`/users/${userId}/contributions?shoppingListItem.party.id=${partyId}`
+		);
 	if (isLoadingParty || isLoadingContributions) {
 		return (
 			<SafeAreaView>
@@ -63,7 +64,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 		);
 	}
 
-	if (!party || !contributions || errorParty || errorContributions) {
+	if (!party || !userContributions || errorParty || errorContributions) {
 		return (
 			<SafeAreaView>
 				<View style={styles.loadingContainer}>
@@ -95,14 +96,17 @@ export default function PartyInformations({ partyId, userId }: Props) {
 					<Card icon="cart">
 						<Card.Header>Liste de courses</Card.Header>
 						<Card.Content>
-							<ShoppingList items={party.shoppingList} />
+							<ShoppingList
+								items={party.shoppingList}
+								userContributions={userContributions}
+							/>
 						</Card.Content>
-						{contributions.length > 0 ? (
+						{userContributions.length > 0 ? (
 							<>
 								<Card.SubHeader>Je ramène</Card.SubHeader>
 								<Card.SubContent>
 									<FlatList
-										data={contributions}
+										data={userContributions}
 										scrollEnabled={false}
 										keyExtractor={(item) =>
 											item.id.toString()
@@ -127,9 +131,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 									/>
 								</Card.SubContent>
 							</>
-						) : (
-							<></>
-						)}
+						) : null}
 						<ThemedModal>
 							<ThemedModal.Button>
 								<ThemedButton
@@ -142,9 +144,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 							</ThemedModal.Modal>
 						</ThemedModal>
 					</Card>
-				) : (
-					<></>
-				)}
+				) : null}
 			</View>
 		</ScrollView>
 	);
