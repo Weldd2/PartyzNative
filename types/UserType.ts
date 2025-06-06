@@ -1,8 +1,7 @@
+import { ApiItem } from "@/types/ApiTypes";
 import { PartyType } from "@/types/PartyType";
 
-export type UserType = {
-	'@id'?: string;
-	'@type'?: string;
+export type UserType = ApiItem & {
 	id: number;
 	firstname: string;
 	lastname: string;
