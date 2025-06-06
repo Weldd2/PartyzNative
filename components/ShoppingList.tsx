@@ -2,20 +2,25 @@ import { IconSymbol } from '@/components/Icon/IconSymbol';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
 import useThemeColors from '@/hooks/useThemeColors';
+import { ShoppingListContribution } from '@/types/ShoppingListContribution';
 import { ShoppingListItem } from '@/types/ShoppingListItem';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, FlatList, StyleSheet, View } from 'react-native';
+import { Animated, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import ThemedButton from './ThemedButton';
 
 type Props = {
 	items: ShoppingListItem[];
+	userContributions: ShoppingListContribution[];
 };
 
 const ITEM_HEIGHT = 40;
 const MAX_VISIBLE_ITEMS = 6;
 const MAX_ITEMS_BEFORE_BUTTON = 6;
 
-export default function ShoppingList({ items = [] }: Props) {
+export default function ShoppingList({
+	items = [],
+	userContributions = [],
+}: Props) {
 	const colors = useThemeColors();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -54,6 +59,24 @@ export default function ShoppingList({ items = [] }: Props) {
 							<ThemedText variant="body3" style={styles.text}>
 								{item.name}
 							</ThemedText>
+							{userContributions.some(
+								(contribution) =>
+									contribution.shoppingListItem['@id'] ===
+										item['@id'] &&
+									item.broughtQuantity !== 0
+							) ? (
+								<Pressable
+									onPress={() => {
+										console.log('- 1');
+									}}
+								>
+									<IconSymbol
+										name="minus.circle"
+										color={colors.error}
+										size={25}
+									/>
+								</Pressable>
+							) : null}
 							<ThemedText
 								color={
 									item.broughtQuantity < item.quantity
@@ -63,6 +86,19 @@ export default function ShoppingList({ items = [] }: Props) {
 							>
 								{item.broughtQuantity}/{item.quantity}
 							</ThemedText>
+							{item.broughtQuantity !== item.quantity ? (
+								<Pressable
+									onPress={() => {
+										console.log('+ 1');
+									}}
+								>
+									<IconSymbol
+										name="plus.circle"
+										color={colors.success}
+										size={25}
+									/>
+								</Pressable>
+							) : null}
 						</View>
 					)}
 					style={styles.list}
