@@ -3,6 +3,7 @@ import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
 import { createApiMutation } from '@/hooks/useApi';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { ShoppingListItem } from '@/types/ShoppingListItem';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -86,21 +87,16 @@ const createStyles = (colors: ColorsType) =>
 export default function ShoppingListEdit({ data }: Props) {
 	const colors = useThemeColors();
 	const styles = createStyles(colors);
-
-	// State
 	const [searchText, setSearchText] = useState('');
 	const [filteredData, setFilteredData] = useState(data);
 	const [localData, setLocalData] = useState(data);
-
-	// Refs for debouncing
 	const debouncedUpdates = useRef<DebouncedUpdates>({});
 	const pendingUpdates = useRef<PendingUpdates>({});
-
-	// API mutation
 	const updateItem = createApiMutation<
 		ShoppingListItem,
 		{ quantity: number }
 	>('PATCH');
+	const { getAnimationStyle, handlePressIn } = usePressEffects();
 
 	// Filter data based on search text
 	const filterData = useCallback(
@@ -211,7 +207,10 @@ export default function ShoppingListEdit({ data }: Props) {
 				<ThemedText variant="body3" style={styles.listItemText}>
 					{item.name}
 				</ThemedText>
-				<Pressable onPress={() => handleDecreaseQuantity(item)}>
+				<Pressable
+					onPress={() => handleDecreaseQuantity(item)}
+					onPressIn={handlePressIn}
+				>
 					<IconSymbol
 						name={
 							item.quantity > 1
@@ -225,7 +224,10 @@ export default function ShoppingListEdit({ data }: Props) {
 				<ThemedText style={{ minWidth: 45, textAlign: 'center' }}>
 					{item.quantity}
 				</ThemedText>
-				<Pressable onPress={() => handleIncreaseQuantity(item)}>
+				<Pressable
+					onPress={() => handleIncreaseQuantity(item)}
+					onPressIn={handlePressIn}
+				>
 					<IconSymbol
 						name="plus.circle"
 						color={colors.success}
@@ -237,7 +239,6 @@ export default function ShoppingListEdit({ data }: Props) {
 		[styles, colors, handleDecreaseQuantity, handleIncreaseQuantity]
 	);
 
-	// Effects
 	useEffect(() => {
 		setLocalData(data);
 	}, [data]);
@@ -255,7 +256,6 @@ export default function ShoppingListEdit({ data }: Props) {
 
 	const hasItems = filteredData.length > 0;
 	const isAddButtonDisabled = !searchText.trim();
-	console.log(isAddButtonDisabled);
 	return (
 		<View style={styles.container}>
 			<ThemedText variant="headline1">Liste de course</ThemedText>
