@@ -1,9 +1,9 @@
-import { Colors } from './Colors';
+import { Colors } from '@/constants/Colors';
 
 export const Shadows = {
 	light: {
 		dp25: {
-			shadowColor: Colors.light.primary,
+			shadowColor: Colors.light.primary900,
 			shadowOffset: {
 				width: 0,
 				height: 1,
@@ -13,7 +13,7 @@ export const Shadows = {
 			elevation: 2,
 		},
 		dp30: {
-			shadowColor: Colors.light.primary,
+			shadowColor: Colors.light.primary900,
 			shadowOffset: {
 				width: 0,
 				height: 1,
@@ -25,7 +25,7 @@ export const Shadows = {
 	},
 	dark: {
 		dp25: {
-			shadowColor: Colors.dark.primary,
+			shadowColor: Colors.dark.primary900,
 			shadowOffset: {
 				width: 0,
 				height: 1,
@@ -35,7 +35,7 @@ export const Shadows = {
 			elevation: 2,
 		},
 		dp30: {
-			shadowColor: Colors.light.primary,
+			shadowColor: Colors.light.primary900,
 			shadowOffset: {
 				width: 0,
 				height: 1,

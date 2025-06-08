@@ -47,7 +47,7 @@ export function IconSymbol({
 }) {
 	const colors = useThemeColors();
 	const materialIconName = MAPPING[name];
-	const iconColor = color || colors.primary;
+	const iconColor = color || colors.primary700;
 	if (!materialIconName) {
 		console.warn(`No MaterialIcon mapping found for icon: ${name}`);
 		// Fallback to a default icon if no mapping is found

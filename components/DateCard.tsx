@@ -14,7 +14,7 @@ import Modal from 'react-native-modal';
 const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		modal: {
-			backgroundColor: colors.greyWhite,
+			backgroundColor: colors.neutral100,
 			position: 'relative',
 			borderRadius: 10,
 			gap: 10,
@@ -72,7 +72,10 @@ export default function DateCard({ party }: Props) {
 						J-{daysLeft} {daysLeft > 7 ? '⌛' : '🔥'}
 					</Card.Header>
 					<Card.Content>
-						<ThemedText style={{ flexShrink: 1 }} color="white">
+						<ThemedText
+							style={{ flexShrink: 1 }}
+							color="neutral100"
+						>
 							{formattedDate}
 						</ThemedText>
 					</Card.Content>

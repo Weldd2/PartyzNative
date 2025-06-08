@@ -38,7 +38,7 @@ export default function Header() {
 			<IconSymbol
 				name="person.crop.circle"
 				size={35}
-				color={colors.primary}
+				color={colors.primary700}
 			/>
 			<Logo />
 			<ThemedModal>
@@ -47,7 +47,7 @@ export default function Header() {
 						<IconSymbol
 							name="ellipsis.circle"
 							size={35}
-							color={colors.primary}
+							color={colors.primary700}
 						/>
 					</Pressable>
 				</ThemedModal.Button>

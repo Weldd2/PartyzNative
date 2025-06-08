@@ -55,7 +55,7 @@ export default function PartyLayout({ route }: Props) {
 		return (
 			<SafeAreaView>
 				<View style={styles.loadingContainer}>
-					<ActivityIndicator size="large" color={colors.primary} />
+					<ActivityIndicator size="large" color={colors.primary700} />
 					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
 			</SafeAreaView>

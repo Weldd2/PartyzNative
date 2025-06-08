@@ -66,7 +66,7 @@ const getVariantStyle = (colors: ColorsType) => ({
 	},
 	fullPage: {
 		modalContainer: {
-			backgroundColor: colors.greyWhite,
+			backgroundColor: colors.neutral200,
 			marginTop: '30%',
 			paddingTop: 20,
 			marginBottom: 0,
@@ -78,7 +78,7 @@ const getVariantStyle = (colors: ColorsType) => ({
 		after: {
 			position: 'absolute',
 			top: 5,
-			backgroundColor: colors.primary,
+			backgroundColor: colors.primary700,
 			alignSelf: 'center',
 			width: '33%',
 			height: 4,

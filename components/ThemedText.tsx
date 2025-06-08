@@ -14,31 +14,31 @@ const getVariantStyle = (colors: typeof Colors.light) => ({
 		lineHeight: 36,
 		marginBottom: 10,
 		fontFamily: 'HossRoundBlack',
-		color: colors.primary,
+		color: colors.primary700,
 	},
 	headline1: {
 		fontSize: 24,
 		lineHeight: 24,
 		marginBottom: 10,
 		fontFamily: 'HossRoundBlack',
-		color: colors.primary,
+		color: colors.primary700,
 	},
 	headline2: {
 		fontSize: 24,
 		lineHeight: 28,
 		marginBottom: 10,
 		fontFamily: 'HossRound',
-		color: colors.primary,
+		color: colors.primary700,
 	},
 	headline3: {
 		fontSize: 18,
 		marginBottom: 10,
 		lineHeight: 20,
 		fontFamily: 'HossRound',
-		color: colors.primary,
+		color: colors.primary700,
 	},
 	global: {
-		color: colors.greyDark,
+		color: colors.neutral900,
 	},
 });
 

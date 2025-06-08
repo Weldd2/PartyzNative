@@ -57,8 +57,8 @@ export default function UserList({ owner, members }: Props) {
 								size={30}
 								color={
 									item.id === owner.id
-										? colors.success
-										: colors.primary
+										? colors.success500
+										: colors.primary700
 								}
 							/>
 							<ThemedText variant="body3" style={styles.text}>
@@ -79,7 +79,7 @@ export default function UserList({ owner, members }: Props) {
 					variant="secondary"
 					onPressAnimation={false}
 				>
-					<ThemedText variant="body3" color="primary">
+					<ThemedText variant="body3" color="primary700">
 						{isExpanded
 							? 'Voir moins'
 							: `Voir plus (${
@@ -89,7 +89,7 @@ export default function UserList({ owner, members }: Props) {
 					<IconSymbol
 						name={isExpanded ? 'chevron.up' : 'chevron.down'}
 						size={20}
-						color={colors.primary}
+						color={colors.primary700}
 					/>
 				</ThemedButton>
 			)}
@@ -103,7 +103,7 @@ const createStyles = (colors: ColorsType) =>
 			borderRadius: 10,
 			borderWidth: 1,
 			overflow: 'hidden',
-			borderColor: colors.greyDark02,
+			borderColor: colors.neutral500,
 		},
 		list: {
 			width: '100%',
@@ -131,7 +131,7 @@ const createStyles = (colors: ColorsType) =>
 			gap: 10,
 			borderWidth: 0,
 			borderTopWidth: 1,
-			borderTopColor: colors.greyDark02,
+			borderTopColor: colors.neutral500,
 			borderRadius: 0,
 		},
 		showMoreText: {

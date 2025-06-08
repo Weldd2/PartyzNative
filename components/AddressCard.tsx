@@ -16,7 +16,7 @@ type Props = {
 const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		modal: {
-			backgroundColor: colors.greyWhite,
+			backgroundColor: colors.neutral100,
 			flex: 1,
 			position: 'relative',
 			borderRadius: 10,
@@ -52,7 +52,10 @@ export default function AddressCard({ address }: Props) {
 				<Card icon="map" variant="secondary">
 					<Card.Header variant="secondary">À XXXkm</Card.Header>
 					<Card.Content>
-						<ThemedText style={{ flexShrink: 1 }} color="white">
+						<ThemedText
+							style={{ flexShrink: 1 }}
+							color="neutral100"
+						>
 							{address}
 						</ThemedText>
 					</Card.Content>

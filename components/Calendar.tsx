@@ -71,7 +71,7 @@ export default function ScreenCalendar({ date, events }: Props) {
 						.split('T')[0];
 					markedDates[dateStr] = {
 						marked: true,
-						dotColor: colors.primary,
+						dotColor: colors.primary700,
 						// On conserve la sélection si la date est également sélectionnée
 						...(dateStr === dateSelectionnee
 							? { selected: true }
@@ -84,7 +84,7 @@ export default function ScreenCalendar({ date, events }: Props) {
 		};
 
 		chargerEvenements();
-	}, [events, dateSelectionnee, colors.primary]);
+	}, [events, dateSelectionnee, colors.primary700]);
 
 	useEffect(() => {
 		// Filtrer les événements pour la date sélectionnée
@@ -102,7 +102,7 @@ export default function ScreenCalendar({ date, events }: Props) {
 			disableTouchEvent: true,
 			// Conserver le point si c'est aussi un événement
 			...(evenements[dateSelectionnee]
-				? { marked: true, dotColor: colors.primary }
+				? { marked: true, dotColor: colors.primary700 }
 				: {}),
 		},
 		// Marquer le jour en paramètre avec une couleur rouge
@@ -110,11 +110,11 @@ export default function ScreenCalendar({ date, events }: Props) {
 			...markedDates?.[date.toISOString().split('T')[0]],
 			customStyles: {
 				container: {
-					backgroundColor: colors.error,
+					backgroundColor: colors.important500,
 					borderRadius: 10,
 				},
 				text: {
-					color: colors.greyWhite,
+					color: colors.neutral100,
 					fontWeight: 'bold',
 				},
 			},
@@ -123,7 +123,7 @@ export default function ScreenCalendar({ date, events }: Props) {
 				? { selected: true }
 				: {}),
 			...(evenements[date.toISOString().split('T')[0]]
-				? { marked: true, dotColor: colors.primary }
+				? { marked: true, dotColor: colors.primary700 }
 				: {}),
 		},
 	};
@@ -141,17 +141,17 @@ export default function ScreenCalendar({ date, events }: Props) {
 				current={date.toISOString().split('T')[0]}
 				markingType={'custom'}
 				theme={{
-					backgroundColor: colors.primary,
-					calendarBackground: colors.greyWhite,
-					textSectionTitleColor: colors.primary,
-					selectedDayBackgroundColor: colors.primary,
-					selectedDayTextColor: colors.white,
+					backgroundColor: colors.primary700,
+					calendarBackground: colors.neutral100,
+					textSectionTitleColor: colors.primary700,
+					selectedDayBackgroundColor: colors.primary700,
+					selectedDayTextColor: colors.neutral100,
 					todayTextColor: 'red',
 					dayTextColor: '#2d4150',
 					textDisabledColor: '#d9e1e8',
-					arrowColor: colors.primary,
-					monthTextColor: colors.primary,
-					indicatorColor: colors.primary,
+					arrowColor: colors.primary700,
+					monthTextColor: colors.primary700,
+					indicatorColor: colors.primary700,
 					textDayFontWeight: '300',
 					textMonthFontWeight: 'bold',
 					textDayHeaderFontWeight: '400',
@@ -176,7 +176,10 @@ export default function ScreenCalendar({ date, events }: Props) {
 
 			<View style={styles.evenementsContainer}>
 				<Text
-					style={[styles.titreEvenements, { color: colors.primary }]}
+					style={[
+						styles.titreEvenements,
+						{ color: colors.primary700 },
+					]}
 				>
 					Événements du{' '}
 					{new Date(dateSelectionnee).toLocaleDateString('fr-FR')}
@@ -187,13 +190,13 @@ export default function ScreenCalendar({ date, events }: Props) {
 							key={index}
 							style={[
 								styles.evenementItem,
-								{ borderLeftColor: colors.primary },
+								{ borderLeftColor: colors.primary700 },
 							]}
 						>
 							<Text
 								style={[
 									styles.heureEvenement,
-									{ color: colors.primary },
+									{ color: colors.primary700 },
 								]}
 							>
 								{formatHeure(evt.startDate)}

@@ -96,7 +96,7 @@ export default function PartyInformations({ partyId, userId }: Props) {
 		return (
 			<SafeAreaView>
 				<View style={styles.loadingContainer}>
-					<ActivityIndicator size="large" color={colors.primary} />
+					<ActivityIndicator size="large" color={colors.primary700} />
 					<ThemedText>Chargement des parties…</ThemedText>
 				</View>
 			</SafeAreaView>
@@ -130,8 +130,8 @@ export default function PartyInformations({ partyId, userId }: Props) {
 						refreshing || isLoadingParty || isLoadingContributions
 					}
 					onRefresh={onRefresh}
-					tintColor={colors.primary}
-					colors={[colors.primary]}
+					tintColor={colors.primary700}
+					colors={[colors.primary700]}
 				/>
 			}
 		>

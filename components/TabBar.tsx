@@ -27,8 +27,8 @@ const createStyles = (colors: ColorsType) =>
 		navItem: {
 			gap: 10,
 			borderWidth: 1,
-			borderColor: colors.primary,
-			backgroundColor: colors.white,
+			borderColor: colors.primary700,
+			backgroundColor: colors.neutral100,
 			flexDirection: 'row',
 			borderRadius: 10,
 			padding: 6,
@@ -57,7 +57,7 @@ export default function TabBar({ routes, index, onIndexChange }: TabBarProps) {
 						<IconSymbol
 							name={route.icon as any}
 							size={24}
-							color={colors.primary}
+							color={colors.primary700}
 						/>
 						{isActive && <ThemedText>{route.title}</ThemedText>}
 					</TouchableOpacity>

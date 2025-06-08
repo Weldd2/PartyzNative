@@ -18,27 +18,27 @@ const styles = StyleSheet.create({
 const getVariantStyle = (colors: typeof Colors.light) => ({
 	primary: {
 		btn: {
-			backgroundColor: colors.primary,
-			borderColor: colors.primary,
+			backgroundColor: colors.primary700,
+			borderColor: colors.primary700,
 			borderWidth: 1,
 		},
-		textStyle: { color: colors.greyWhite },
+		textStyle: { color: colors.neutral100 },
 	},
 	secondary: {
 		btn: {
-			backgroundColor: colors.secondary,
-			borderColor: colors.primary,
+			backgroundColor: colors.neutral100,
+			borderColor: colors.primary800,
 			borderWidth: 1,
 		},
-		textStyle: { color: colors.primary },
+		textStyle: { color: colors.primary800 },
 	},
 	primary2: {
 		btn: {
-			backgroundColor: colors.white,
-			borderColor: colors.primary,
+			backgroundColor: colors.neutral100,
+			borderColor: colors.primary700,
 			borderWidth: 1,
 		},
-		textStyle: { color: colors.primary },
+		textStyle: { color: colors.primary700 },
 	},
 });
 

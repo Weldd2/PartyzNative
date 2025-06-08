@@ -24,7 +24,7 @@ export function CardHeader({ variant, children }: CardHeaderProps) {
 	return (
 		<View style={styles.headerContainer}>
 			<ThemedText
-				color={variant === 'secondary' ? 'white' : 'primary'}
+				color={variant === 'secondary' ? 'neutral100' : 'primary500'}
 				variant="headline2"
 			>
 				{children}

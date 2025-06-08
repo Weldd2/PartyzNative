@@ -19,13 +19,13 @@ const createStyles = (variant: string, colors: ColorsType) =>
 			borderRadius: 100,
 			position: 'absolute',
 			backgroundColor:
-				variant === 'primary' ? colors.white : colors.primary,
+				variant === 'primary' ? colors.neutral100 : colors.primary700,
 			top: -20,
 			left: 30,
 		},
 		cardWrapper: {
 			backgroundColor:
-				variant === 'primary' ? colors.white : colors.primary,
+				variant === 'primary' ? colors.neutral100 : colors.primary700,
 			paddingHorizontal: 20,
 			paddingTop: 40,
 			height: '100%',
@@ -63,7 +63,9 @@ function CardRoot({
 				<IconSymbol
 					size={40}
 					color={
-						variant === 'secondary' ? colors.white : colors.primary
+						variant === 'secondary'
+							? colors.neutral100
+							: colors.primary700
 					}
 					name={icon}
 				/>
@@ -74,8 +76,8 @@ function CardRoot({
 						size={40}
 						color={
 							variant === 'secondary'
-								? colors.white
-								: colors.primary
+								? colors.neutral100
+								: colors.primary700
 						}
 						name={icon}
 					/>

@@ -78,7 +78,11 @@ export default function PartyList({ parties }: Props) {
 									  )
 									: 'Date non disponible'}
 							</ThemedText>
-							<ThemedText style={[styles.unread]}>4</ThemedText>
+							<View style={styles.unreadContainer}>
+								<ThemedText style={[styles.unread]}>
+									4
+								</ThemedText>
+							</View>
 						</View>
 					</Pressable>
 				)}
@@ -94,14 +98,20 @@ const createStyles = (colors: ColorsType) =>
 			paddingBottom: 20,
 		},
 		listItem: {
-			backgroundColor: colors.white,
+			backgroundColor: colors.neutral100,
 			borderRadius: 10,
 			paddingHorizontal: 8,
 			paddingVertical: 10,
 		},
-		unread: {
+		unreadContainer: {
 			borderRadius: 100,
-			padding: 5,
-			backgroundColor: colors.third,
+			backgroundColor: colors.important700,
+			padding: 10,
+			position: 'relative',
+		},
+		unread: {
+			position: 'absolute',
+			alignSelf: 'center',
+			color: colors.neutral100,
 		},
 	});

@@ -75,7 +75,7 @@ export default function ShoppingList({
 								>
 									<IconSymbol
 										name="minus.circle"
-										color={colors.error}
+										color={colors.important500}
 										size={25}
 									/>
 								</Pressable>
@@ -83,8 +83,8 @@ export default function ShoppingList({
 							<ThemedText
 								color={
 									item.broughtQuantity < item.quantity
-										? 'error'
-										: 'success'
+										? 'important500'
+										: 'success500'
 								}
 								style={{ minWidth: 45, textAlign: 'center' }}
 							>
@@ -99,7 +99,7 @@ export default function ShoppingList({
 								>
 									<IconSymbol
 										name="plus.circle"
-										color={colors.success}
+										color={colors.success500}
 										size={25}
 									/>
 								</Pressable>
@@ -116,7 +116,7 @@ export default function ShoppingList({
 					variant="secondary"
 					onPressAnimation={false}
 				>
-					<ThemedText variant="body3" color="primary">
+					<ThemedText variant="body3" color="primary700">
 						{isExpanded
 							? 'Voir moins'
 							: `Voir plus (${
@@ -126,7 +126,7 @@ export default function ShoppingList({
 					<IconSymbol
 						name={isExpanded ? 'chevron.up' : 'chevron.down'}
 						size={20}
-						color={colors.primary}
+						color={colors.primary700}
 					/>
 				</ThemedButton>
 			)}
@@ -140,7 +140,7 @@ const createStyles = (colors: ColorsType) =>
 			borderRadius: 10,
 			borderWidth: 1,
 			overflow: 'hidden',
-			borderColor: colors.greyDark02,
+			borderColor: colors.neutral500,
 		},
 		list: {
 			width: '100%',
@@ -168,7 +168,7 @@ const createStyles = (colors: ColorsType) =>
 			gap: 10,
 			borderWidth: 0,
 			borderTopWidth: 1,
-			borderTopColor: colors.greyDark02,
+			borderTopColor: colors.neutral500,
 			borderRadius: 0,
 		},
 		showMoreText: {

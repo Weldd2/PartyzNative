@@ -46,7 +46,7 @@ function AppNavigator() {
 					alignItems: 'center',
 				}}
 			>
-				<ActivityIndicator color={colors.primary} size="large" />
+				<ActivityIndicator color={colors.primary700} size="large" />
 			</View>
 		);
 	}

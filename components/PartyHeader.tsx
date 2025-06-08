@@ -47,7 +47,7 @@ export default function PartyHeader({ party }: Props) {
 				<IconSymbol
 					name="person.crop.circle"
 					size={35}
-					color={colors.primary}
+					color={colors.primary700}
 				/>
 			</View>
 			<ThemedText variant="headline1" style={{ marginBottom: 0 }}>
@@ -59,7 +59,7 @@ export default function PartyHeader({ party }: Props) {
 						<IconSymbol
 							name="ellipsis.circle"
 							size={35}
-							color={colors.primary}
+							color={colors.primary700}
 						/>
 					</Pressable>
 				</ThemedModal.Button>

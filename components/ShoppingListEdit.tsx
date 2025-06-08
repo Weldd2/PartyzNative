@@ -11,6 +11,7 @@ import {
 	Alert,
 	FlatList,
 	Pressable,
+	ScrollView,
 	StyleSheet,
 	TextInput,
 	View,
@@ -28,20 +29,26 @@ const DEBOUNCE_DELAY = 1000;
 const createStyles = (colors: ColorsType) =>
 	StyleSheet.create({
 		container: {
-			paddingHorizontal: 15,
 			paddingTop: 15,
+			marginBottom: 0,
+			paddingBottom: 0,
 			gap: 20,
 			flex: 1,
 		},
+		headerContainer: {
+			paddingHorizontal: 15,
+		},
 		listContainer: {
-			borderRadius: 10,
-			borderWidth: 1,
-			overflow: 'hidden',
-			borderColor: colors.greyDark02,
+			paddingHorizontal: 15,
 			flex: 1,
+			paddingTop: 20,
+			gap: 10,
+			backgroundColor: colors.neutral100,
 		},
 		list: {
-			flex: 1,
+			borderRadius: 10,
+			borderWidth: 1,
+			borderColor: colors.neutral500,
 		},
 		listItem: {
 			flexDirection: 'row',
@@ -62,13 +69,13 @@ const createStyles = (colors: ColorsType) =>
 			borderBottomRightRadius: 0,
 			flex: 1,
 			paddingLeft: 14,
-			backgroundColor: colors.white,
+			backgroundColor: colors.neutral100,
 			fontSize: 18,
 			fontFamily: 'HossRound',
-			color: colors.greyDark,
+			color: colors.neutral900,
 			borderWidth: 1,
 			borderRightWidth: 0,
-			borderColor: colors.greyDark02,
+			borderColor: colors.neutral500,
 		},
 		addBtn: {
 			marginTop: 0,
@@ -77,7 +84,7 @@ const createStyles = (colors: ColorsType) =>
 			borderTopLeftRadius: 0,
 			borderBottomLeftRadius: 0,
 			borderWidth: 1,
-			borderColor: colors.greyDark02,
+			borderColor: colors.neutral500,
 		},
 		footerText: {
 			marginBottom: 40,
@@ -217,7 +224,7 @@ export default function ShoppingListEdit({ data }: Props) {
 								? 'minus.circle'
 								: 'multiply.circle'
 						}
-						color={colors.error}
+						color={colors.important500}
 						size={25}
 					/>
 				</Pressable>
@@ -230,13 +237,19 @@ export default function ShoppingListEdit({ data }: Props) {
 				>
 					<IconSymbol
 						name="plus.circle"
-						color={colors.success}
+						color={colors.success500}
 						size={25}
 					/>
 				</Pressable>
 			</View>
 		),
-		[styles, colors, handleDecreaseQuantity, handleIncreaseQuantity]
+		[
+			styles,
+			colors,
+			handleDecreaseQuantity,
+			handleIncreaseQuantity,
+			handlePressIn,
+		]
 	);
 
 	useEffect(() => {
@@ -258,41 +271,43 @@ export default function ShoppingListEdit({ data }: Props) {
 	const isAddButtonDisabled = !searchText.trim();
 	return (
 		<View style={styles.container}>
-			<ThemedText variant="headline1">Liste de course</ThemedText>
-
-			<View style={styles.textInputContainer}>
-				<TextInput
-					placeholderTextColor={colors.greyDark02}
-					placeholder="Ajouter un nouvel article"
-					style={styles.textInput}
-					value={searchText}
-					onChangeText={setSearchText}
-				/>
-				<ThemedButton
-					text="Ajouter"
-					disabled={isAddButtonDisabled}
-					style={styles.addBtn}
-					onPress={handleAddItem}
-				/>
-			</View>
-
-			{hasItems && (
-				<View style={styles.listContainer}>
-					<FlatList
-						data={filteredData}
-						keyExtractor={(item) => item.id.toString()}
-						renderItem={renderListItem}
-						style={styles.list}
+			<View style={styles.headerContainer}>
+				<ThemedText variant="headline1">Liste de course</ThemedText>
+				<View style={styles.textInputContainer}>
+					<TextInput
+						placeholderTextColor={colors.neutral600}
+						placeholder="Ajouter un nouvel article"
+						style={styles.textInput}
+						value={searchText}
+						onChangeText={setSearchText}
+					/>
+					<ThemedButton
+						text="Ajouter"
+						disabled={isAddButtonDisabled}
+						style={styles.addBtn}
+						onPress={handleAddItem}
 					/>
 				</View>
-			)}
-
-			<View style={styles.footerText}>
-				<ThemedText color="greyLight">
-					Fin de la liste... Si vous ne trouvez pas ce que vous
-					voulez, vous pouvez ajouter un nouvel article.
-				</ThemedText>
 			</View>
+			<ScrollView>
+				<View style={styles.listContainer}>
+					{hasItems && (
+						<FlatList
+							data={filteredData}
+							keyExtractor={(item) => item.id.toString()}
+							renderItem={renderListItem}
+							style={styles.list}
+							scrollEnabled={false}
+						/>
+					)}
+					<View style={styles.footerText}>
+						<ThemedText color="neutral600">
+							Fin de la liste... Si vous ne trouvez pas ce que
+							vous voulez, vous pouvez ajouter un nouvel article.
+						</ThemedText>
+					</View>
+				</View>
+			</ScrollView>
 		</View>
 	);
 }

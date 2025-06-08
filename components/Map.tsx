@@ -57,7 +57,7 @@ export default function MapScreen({ address }: Props) {
 	if (loadingGeo || !webViewContent) {
 		return (
 			<View style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color={colors.primary} />
+				<ActivityIndicator size="large" color={colors.primary700} />
 				<ThemedText>Chargement de la carte…</ThemedText>
 			</View>
 		);
@@ -92,7 +92,7 @@ const createStyles = (colors: ColorsType) =>
 			borderRadius: 10,
 			overflow: 'hidden',
 			borderWidth: 1,
-			borderColor: colors.primary,
+			borderColor: colors.primary700,
 		},
 		loadingContainer: {
 			flex: 1,
