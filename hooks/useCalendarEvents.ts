@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 export const useCalendarEvents = (party: PartyType, isModalVisible: boolean) => {
-	const [events, setEvents] = useState([]);
+	const [events, setEvents] = useState<Calendar.Event[]>([]);
 
 	const getEvents = useCallback(async () => {
 		const { status } = await Calendar.requestCalendarPermissionsAsync();
