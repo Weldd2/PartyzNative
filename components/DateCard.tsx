@@ -3,12 +3,12 @@ import { Card } from '@/components/Card/Card';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import { useCalendarEvents } from '@/hooks/useCalendarEvents';
 import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
-import * as Calendar from 'expo-calendar';
-import { useCallback, useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
 const createStyles = (colors: ColorsType) =>
@@ -33,98 +33,20 @@ export default function DateCard({ party }: Props) {
 	const colors = useThemeColors();
 	const styles = createStyles(colors);
 	const [isModalVisible, setModalVisible] = useState(false);
-	const [events, setEvents] = useState([]);
+	const { events, createEvent } = useCalendarEvents(party, isModalVisible);
 	const dateObj = new Date(party.date);
 	const { getAnimationStyle, handlePressIn } = usePressEffects();
 	const daysLeft = Math.ceil(
 		(dateObj.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
 	);
 
-	const toggleModal = useCallback(async () => {
+	const toggleModal = useCallback(() => {
 		setModalVisible(!isModalVisible);
 	}, [isModalVisible]);
 
-	const getEvents = useCallback(async () => {
-		const { status } = await Calendar.requestCalendarPermissionsAsync();
-		if (status === 'granted') {
-			const calendriers = await Calendar.getCalendarsAsync(
-				Calendar.EntityTypes.EVENT
-			);
-			const calendrierDefaut =
-				calendriers.find((cal) => cal.allowsModifications) ||
-				calendriers[0];
-
-			const debut = new Date();
-			const fin = new Date(party.date);
-			fin.setDate(fin.getDate() + 30); // Prochains 30 jours
-
-			const evenements = await Calendar.getEventsAsync(
-				[calendrierDefaut.id],
-				debut,
-				fin
-			);
-			return evenements;
-		} else {
-			console.log('Permission refusée pour accéder au calendrier');
-			return [];
-		}
-	}, [party]);
-
-	const createEvent = useCallback(
-		async (party: PartyType) => {
-			const { status } = await Calendar.requestCalendarPermissionsAsync();
-			if (status === 'granted') {
-				const calendriers = await Calendar.getCalendarsAsync(
-					Calendar.EntityTypes.EVENT
-				);
-				const calendrierDefaut =
-					calendriers.find((cal) => cal.isPrimary) || calendriers[0];
-
-				const evenement = {
-					title: party.title,
-					startDate: new Date(party.date),
-					endDate: new Date(
-						new Date(party.date).getTime() + 3 * 60 * 60 * 1000
-					),
-					timeZone: 'Europe/Paris',
-					location: party.address,
-				};
-
-				try {
-					const idEvenement = await Calendar.createEventAsync(
-						calendrierDefaut.id,
-						evenement
-					);
-					Alert.alert('Success', 'Évènement créé avec succès.', [
-						{
-							text: 'OK',
-							onPress: toggleModal,
-						},
-					]);
-					console.log("Événement créé avec l'ID :", idEvenement);
-				} catch (e) {
-					console.error(
-						"Erreur lors de la création de l'événement :",
-						e
-					);
-				}
-			} else {
-				console.log('Permission refusée pour accéder au calendrier');
-			}
-		},
-		[toggleModal]
-	);
-
-	useEffect(() => {
-		const loadEvents = async () => {
-			const eventsList = await getEvents();
-			setEvents(eventsList);
-		};
-
-		if (isModalVisible) {
-			loadEvents();
-		}
-	}, [getEvents, isModalVisible]);
+	const handleCreateEvent = useCallback(() => {
+		createEvent(toggleModal);
+	}, [createEvent, toggleModal]);
 
 	const formattedDate = dateObj.toLocaleDateString('fr-FR', {
 		day: 'numeric',
@@ -164,7 +86,7 @@ export default function DateCard({ party }: Props) {
 					/>
 					<View style={styles.btnContainer}>
 						<ThemedButton
-							onPress={() => createEvent(party)}
+							onPress={handleCreateEvent}
 							variant="primary"
 							text="Ajouter au Calendrier"
 						/>
