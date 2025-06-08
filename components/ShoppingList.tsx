@@ -110,7 +110,7 @@ export default function ShoppingList({
 					style={[styles.showMoreButton]}
 					onPress={toggleExpanded}
 					variant="secondary"
-					onPressAnimation={true}
+					onPressAnimation={false}
 				>
 					<ThemedText variant="body3" color="primary">
 						{isExpanded
