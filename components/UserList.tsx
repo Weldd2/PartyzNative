@@ -77,6 +77,7 @@ export default function UserList({ owner, members }: Props) {
 					style={[styles.showMoreButton]}
 					onPress={toggleExpanded}
 					variant="secondary"
+					onPressAnimation={false}
 				>
 					<ThemedText variant="body3" color="primary">
 						{isExpanded

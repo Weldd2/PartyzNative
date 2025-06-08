@@ -83,6 +83,7 @@ export default function ShoppingList({
 										? 'error'
 										: 'success'
 								}
+								style={{ minWidth: 45, textAlign: 'center' }}
 							>
 								{item.broughtQuantity}/{item.quantity}
 							</ThemedText>
@@ -109,6 +110,7 @@ export default function ShoppingList({
 					style={[styles.showMoreButton]}
 					onPress={toggleExpanded}
 					variant="secondary"
+					onPressAnimation={true}
 				>
 					<ThemedText variant="body3" color="primary">
 						{isExpanded

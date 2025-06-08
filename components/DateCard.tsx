@@ -3,6 +3,7 @@ import { Card } from '@/components/Card/Card';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import * as Calendar from 'expo-calendar';
@@ -34,13 +35,14 @@ export default function DateCard({ party }: Props) {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [events, setEvents] = useState([]);
 	const dateObj = new Date(party.date);
+	const { getAnimationStyle, handlePressIn } = usePressEffects();
 	const daysLeft = Math.ceil(
 		(dateObj.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
 	);
 
-	const toggleModal = () => {
+	const toggleModal = useCallback(async () => {
 		setModalVisible(!isModalVisible);
-	};
+	}, [isModalVisible]);
 
 	const getEvents = useCallback(async () => {
 		const { status } = await Calendar.requestCalendarPermissionsAsync();
@@ -66,7 +68,7 @@ export default function DateCard({ party }: Props) {
 			console.log('Permission refusée pour accéder au calendrier');
 			return [];
 		}
-	});
+	}, [party]);
 
 	const createEvent = useCallback(
 		async (party: PartyType) => {
@@ -134,7 +136,14 @@ export default function DateCard({ party }: Props) {
 
 	return (
 		<>
-			<Pressable onPress={toggleModal} style={{ flex: 1 }}>
+			<Pressable
+				onPress={toggleModal}
+				onPressIn={handlePressIn}
+				style={({ pressed }: { pressed: boolean }) => [
+					getAnimationStyle(pressed),
+					{ flex: 1 },
+				]}
+			>
 				<Card icon="calendar" variant="secondary">
 					<Card.Header variant="secondary">
 						J-{daysLeft} {daysLeft > 7 ? '⌛' : '🔥'}

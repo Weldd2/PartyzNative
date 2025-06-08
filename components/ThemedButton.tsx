@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { Pressable, StyleSheet } from 'react-native';
 import ThemedText from './ThemedText';
@@ -48,6 +49,8 @@ type Props = React.ComponentProps<typeof Pressable> & {
 	text?: string;
 	children?: React.ReactNode;
 	disabled?: boolean;
+	onPressAnimation?: boolean;
+	onPressHaptic?: boolean;
 };
 
 export default function ThemedButton({
@@ -56,20 +59,31 @@ export default function ThemedButton({
 	onPress,
 	variant = 'primary',
 	disabled = false,
+	onPressAnimation = true,
+	onPressHaptic = true,
 	...rest
 }: Props) {
 	const colors = useThemeColors();
 	const variantStyles = getVariantStyle(colors);
+	const { getAnimationStyle, handlePressIn } = usePressEffects({
+		enableAnimation: onPressAnimation,
+		enableHaptic: onPressHaptic,
+	});
 
 	return (
 		<Pressable
 			{...rest}
-			style={[
+			style={({ pressed }: { pressed: boolean }) => [
 				styles.btn,
-				disabled ? styles.disabled : undefined,
 				variantStyles[variant].btn,
-				rest.style,
+				getAnimationStyle(pressed),
+				{
+					opacity: pressed ? 0.9 : 1,
+				},
+				disabled ? styles.disabled : undefined,
+				rest.style as any,
 			]}
+			onPressIn={handlePressIn}
 			onPress={disabled ? undefined : onPress}
 			disabled={disabled}
 		>

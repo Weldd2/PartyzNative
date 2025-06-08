@@ -2,6 +2,7 @@ import { IconSymbol } from '@/components/Icon/IconSymbol';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -28,6 +29,7 @@ type Props = {
 export default function PartyHeader({ party }: Props) {
 	const colors = useThemeColors();
 	const styles = createStyles(colors);
+	const { handlePressIn } = usePressEffects();
 
 	const setContent = () => {
 		return (
@@ -53,7 +55,7 @@ export default function PartyHeader({ party }: Props) {
 			</ThemedText>
 			<ThemedModal>
 				<ThemedModal.Button>
-					<Pressable>
+					<Pressable onPressIn={handlePressIn}>
 						<IconSymbol
 							name="ellipsis.circle"
 							size={35}

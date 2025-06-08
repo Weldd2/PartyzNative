@@ -1,6 +1,7 @@
 import { RootStackParamList } from '@/App';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { PartyType } from '@/types/PartyType';
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +18,7 @@ export default function PartyList({ parties }: Props) {
 	const colors = useThemeColors();
 	const navigation = useNavigation<PartiesNavProp>();
 	const styles = createStyles(colors);
+	const { getAnimationStyle, handlePressIn } = usePressEffects();
 	const futureParties = parties
 		.filter((party) => party.date && new Date(party.date) > new Date())
 		.sort((a, b) => {
@@ -35,7 +37,11 @@ export default function PartyList({ parties }: Props) {
 				ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
 				renderItem={({ item }) => (
 					<Pressable
-						style={[styles.listItem]}
+						style={({ pressed }: { pressed: boolean }) => [
+							getAnimationStyle(pressed),
+							styles.listItem,
+						]}
+						onPressIn={handlePressIn}
 						onPress={() =>
 							navigation.navigate('Party', {
 								party: item,

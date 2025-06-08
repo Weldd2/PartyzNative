@@ -2,6 +2,7 @@ import { IconSymbol } from '@/components/Icon/IconSymbol';
 import Logo from '@/components/Logo';
 import ThemedButton from '@/components/ThemedButton';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -20,6 +21,7 @@ const createStyle = (colors: ColorsType) =>
 export default function Header() {
 	const colors = useThemeColors();
 	const styles = createStyle(colors);
+	const { handlePressIn } = usePressEffects();
 
 	const setContent = () => {
 		return (
@@ -41,7 +43,7 @@ export default function Header() {
 			<Logo />
 			<ThemedModal>
 				<ThemedModal.Button>
-					<Pressable>
+					<Pressable onPressIn={handlePressIn}>
 						<IconSymbol
 							name="ellipsis.circle"
 							size={35}

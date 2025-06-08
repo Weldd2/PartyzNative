@@ -2,6 +2,7 @@ import { Card } from '@/components/Card/Card';
 import ThemedButton from '@/components/ThemedButton';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -33,14 +34,21 @@ export default function AddressCard({ address }: Props) {
 	const colors = useThemeColors();
 	const styles = createStyles(colors);
 	const [isModalVisible, setModalVisible] = useState(false);
-
+	const { getAnimationStyle, handlePressIn } = usePressEffects();
 	const toggleModal = () => {
 		setModalVisible(!isModalVisible);
 	};
 
 	return (
 		<>
-			<Pressable onPress={toggleModal} style={{ flex: 1 }}>
+			<Pressable
+				onPress={toggleModal}
+				style={({ pressed }: { pressed: boolean }) => [
+					getAnimationStyle(pressed),
+					{ flex: 1 },
+				]}
+				onPressIn={handlePressIn}
+			>
 				<Card icon="map" variant="secondary">
 					<Card.Header variant="secondary">À XXXkm</Card.Header>
 					<Card.Content>
