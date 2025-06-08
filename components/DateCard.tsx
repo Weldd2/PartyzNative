@@ -22,6 +22,7 @@ const createStyles = (colors: ColorsType) =>
 		btnContainer: {
 			paddingHorizontal: 15,
 			paddingBottom: 15,
+			gap: 10,
 		},
 	});
 
