@@ -12,14 +12,19 @@
       "assets/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.Partyz"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -36,12 +41,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
-	  [
+      [
         "expo-calendar",
         {
           "calendarPermission": "Cette application nécessite l'accès au calendrier"
         }
-	  ],
+      ],
       "expo-asset"
     ],
     "experiments": {
