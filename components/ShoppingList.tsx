@@ -1,6 +1,7 @@
 import { IconSymbol } from '@/components/Icon/IconSymbol';
 import ThemedText from '@/components/ThemedText';
 import { ColorsType } from '@/constants/Colors';
+import usePressEffects from '@/hooks/usePressEffects';
 import useThemeColors from '@/hooks/useThemeColors';
 import { ShoppingListContribution } from '@/types/ShoppingListContribution';
 import { ShoppingListItem } from '@/types/ShoppingListItem';
@@ -25,6 +26,7 @@ export default function ShoppingList({
 	const [isExpanded, setIsExpanded] = useState(false);
 	const animatedHeight = useRef(new Animated.Value(0)).current;
 	const styles = createStyles(colors);
+	const { handlePressIn } = usePressEffects();
 	const shouldShowButton = items.length > MAX_ITEMS_BEFORE_BUTTON;
 	const collapsedHeight =
 		Math.min(items.length, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
@@ -69,6 +71,7 @@ export default function ShoppingList({
 									onPress={() => {
 										console.log('- 1');
 									}}
+									onPressIn={handlePressIn}
 								>
 									<IconSymbol
 										name="minus.circle"
@@ -92,6 +95,7 @@ export default function ShoppingList({
 									onPress={() => {
 										console.log('+ 1');
 									}}
+									onPressIn={handlePressIn}
 								>
 									<IconSymbol
 										name="plus.circle"

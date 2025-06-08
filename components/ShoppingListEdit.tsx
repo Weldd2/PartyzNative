@@ -96,7 +96,7 @@ export default function ShoppingListEdit({ data }: Props) {
 		ShoppingListItem,
 		{ quantity: number }
 	>('PATCH');
-	const { getAnimationStyle, handlePressIn } = usePressEffects();
+	const { handlePressIn } = usePressEffects();
 
 	// Filter data based on search text
 	const filterData = useCallback(
